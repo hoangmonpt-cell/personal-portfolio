@@ -64,8 +64,8 @@ export async function fetchGitLabProjects(
   }
 
   const endpoint = isGroup
-    ? `${cleanBase}/api/v4/groups/${targetId}/projects?per_page=100&order_by=updated_at`
-    : `${cleanBase}/api/v4/users/${targetId}/projects?per_page=100&order_by=updated_at`;
+    ? `${cleanBase}/api/v4/groups/${targetId}/projects?per_page=100&order_by=updated_at&visibility=public`
+    : `${cleanBase}/api/v4/users/${targetId}/projects?per_page=100&order_by=updated_at&visibility=public`;
 
   const response = await fetch(endpoint);
 
@@ -83,7 +83,7 @@ export async function fetchGitLabProjects(
   }
 
   return data
-    .filter((proj) => !proj.archived)
+    .filter((proj) => !proj.archived && !proj.name.includes('deletion_scheduled'))
     .map((proj): UnifiedProject => {
       const rawTopics = Array.isArray(proj.topics)
         ? proj.topics
@@ -91,21 +91,30 @@ export async function fetchGitLabProjects(
           ? proj.tag_list
           : [];
       const lowerTopics = rawTopics.map((t) => t.toLowerCase());
+      const lowerName = proj.name.toLowerCase();
+      const lowerDesc = (proj.description || '').toLowerCase();
 
       let category = 'software';
       if (
-        lowerTopics.some((t) => t.includes('game') || t.includes('unity') || t.includes('godot') || t.includes('unreal'))
+        lowerTopics.some((t) => t.includes('game') || t.includes('unity') || t.includes('godot') || t.includes('unreal')) ||
+        lowerName.includes('game') ||
+        lowerDesc.includes('game') ||
+        lowerName.includes('veldwild') ||
+        lowerName.includes('ottershi')
       ) {
-    category = 'game';
-  } else if (
-        lowerTopics.some((t) => t.includes('ai') || t.includes('ml') || t.includes('llm'))
+        category = 'game';
+      } else if (
+        lowerTopics.some((t) => t.includes('ai') || t.includes('ml') || t.includes('llm')) ||
+        lowerName.includes('ai') ||
+        lowerDesc.includes('ai')
       ) {
-    category = 'ai';
-  } else if (
-        lowerTopics.some((t) => t.includes('tool') || t.includes('cli') || t.includes('devops'))
+        category = 'ai';
+      } else if (
+        lowerTopics.some((t) => t.includes('tool') || t.includes('cli') || t.includes('devops')) ||
+        lowerName.includes('tool')
       ) {
-    category = 'tool';
-  }
+        category = 'tool';
+      }
 
   return {
     id: `gl-${proj.id}`,

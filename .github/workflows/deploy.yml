@@ -46,8 +46,9 @@ jobs:
       - name: Build Production Bundle
         env:
           VITE_BASE_PATH: /personal-portfolio/
-          VITE_GITHUB_USERNAME: hoangmonpt-cell
-          VITE_GITLAB_USERNAME: ""
+          VITE_GITHUB_USERNAME: ${{ vars.VITE_GITHUB_USERNAME || 'hoangmonpt-cell' }}
+          VITE_GITLAB_USERNAME: ${{ vars.VITE_GITLAB_USERNAME || 'hoangmonpt-cell' }}
+          VITE_GITLAB_BASE_URL: https://gitlab.com
         run: npm run build
 
       - name: Upload GitHub Pages Artifact

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import type { UnifiedProject } from '../../types/project';
 import { syncAllProjects } from '../../services/projectSync/projectSyncService';
+import { profileData } from '../../data/profile';
 import { CaseStudyModal } from '../projects/CaseStudyModal';
 import { CoverflowCarousel } from '../ui/CoverflowCarousel';
 import { useI18n } from '../../i18n';
@@ -38,9 +39,21 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ inModal = fals
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [activeCaseStudyId, setActiveCaseStudyId] = useState<string | null>(null);
+  const [syncErrors, setSyncErrors] = useState<string[]>([]);
 
-  const githubUser = import.meta.env.VITE_GITHUB_USERNAME || 'hoangmonpt-cell';
-  const gitlabUser = import.meta.env.VITE_GITLAB_USERNAME || '';
+  // Robust username resolution: Environment variable -> Profile link -> Default fallback
+  const githubUser = useMemo(() => {
+    if (import.meta.env.VITE_GITHUB_USERNAME) return import.meta.env.VITE_GITHUB_USERNAME;
+    const fromSocial = profileData.socialLinks.github.split('/').filter(Boolean).pop();
+    return fromSocial && !fromSocial.includes('[') ? fromSocial : 'hoangmonpt-cell';
+  }, []);
+
+  const gitlabUser = useMemo(() => {
+    if (import.meta.env.VITE_GITLAB_USERNAME) return import.meta.env.VITE_GITLAB_USERNAME;
+    const fromSocial = profileData.socialLinks.gitlab.split('/').filter(Boolean).pop();
+    return fromSocial && !fromSocial.includes('[') ? fromSocial : 'hoangmonpt-cell';
+  }, []);
+
   const gitlabBaseUrl = import.meta.env.VITE_GITLAB_BASE_URL || 'https://gitlab.com';
 
   const loadProjects = useCallback(async (force: boolean = false) => {
@@ -49,6 +62,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ inModal = fals
       const result = await syncAllProjects(githubUser, gitlabUser, gitlabBaseUrl, force);
       setProjects(result.projects);
       setIsCached(result.isCached);
+      setSyncErrors(result.errors);
     } catch {
       // ignore
     } finally {
@@ -151,10 +165,13 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ inModal = fals
                 loadProjects(true);
               }}
               disabled={loading}
-              title="Làm mới đồng bộ từ GitHub/GitLab"
-              className="p-1 border border-slate-700 bg-slate-900/80 text-slate-400 hover:text-[#00f0ff] hover:border-[#00f0ff] transition-all ml-1"
+              title={syncErrors.length > 0 ? `Trạng thái: ${syncErrors.join(' | ')} (Click để đồng bộ lại)` : (isCached ? "Dữ liệu từ cache (Click để làm mới từ API)" : "Làm mới đồng bộ từ GitHub/GitLab")}
+              className="p-1 border border-slate-700 bg-slate-900/80 text-slate-400 hover:text-[#00f0ff] hover:border-[#00f0ff] transition-all ml-1 relative"
             >
               <RotateCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#00f0ff]' : ''}`} />
+              {syncErrors.length > 0 && (
+                <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-amber-400 animate-pulse" title={syncErrors.join('; ')} />
+              )}
             </button>
 
             {/* Layout Toggle (Only in 2D mode) */}

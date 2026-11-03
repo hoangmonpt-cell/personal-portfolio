@@ -98,11 +98,28 @@ export async function syncAllProjects(
 
   let ghProjects: UnifiedProject[] = [];
   let glProjects: UnifiedProject[] = [];
+  let ghSuccess = false;
+  let glSuccess = false;
+
+  // Retrieve cached projects ahead of time in case of partial provider failure
+  let cachedProjects: UnifiedProject[] = [];
+  try {
+    const rawCache = localStorage.getItem(CACHE_KEY);
+    if (rawCache) {
+      const parsed: CachedData = JSON.parse(rawCache);
+      if (Array.isArray(parsed.projects)) {
+        cachedProjects = parsed.projects;
+      }
+    }
+  } catch {
+    // ignore
+  }
 
   // 1. Fetch GitHub
   if (githubUser) {
     try {
       ghProjects = await fetchGitHubRepos(githubUser);
+      ghSuccess = true;
     } catch (err: any) {
       errors.push(`GitHub: ${err.message || 'Error syncing GitHub repos'}`);
     }
@@ -112,12 +129,38 @@ export async function syncAllProjects(
   if (gitlabUser) {
     try {
       glProjects = await fetchGitLabProjects(gitlabUser, gitlabBaseUrl);
+      glSuccess = true;
     } catch (err: any) {
       errors.push(`GitLab: ${err.message || 'Error syncing GitLab projects'}`);
     }
   }
 
-  const combined = [...ghProjects, ...glProjects];
+  // Partial Provider Recovery: If one provider failed, preserve its projects from cache
+  if (!ghSuccess && cachedProjects.length > 0) {
+    const cachedGh = cachedProjects.filter((p) => p.provider === 'github');
+    if (cachedGh.length > 0) {
+      ghProjects = cachedGh;
+    }
+  }
+  if (!glSuccess && cachedProjects.length > 0) {
+    const cachedGl = cachedProjects.filter((p) => p.provider === 'gitlab');
+    if (cachedGl.length > 0) {
+      glProjects = cachedGl;
+    }
+  }
+
+  // Combine and deduplicate projects (by unique provider + name)
+  const combinedRaw = [...ghProjects, ...glProjects];
+  const seenKeys = new Set<string>();
+  const combined: UnifiedProject[] = [];
+
+  for (const proj of combinedRaw) {
+    const key = `${proj.provider}-${proj.name.toLowerCase()}`;
+    if (!seenKeys.has(key)) {
+      seenKeys.add(key);
+      combined.push(proj);
+    }
+  }
 
   if (combined.length > 0) {
     const enriched = applyProjectOverrides(combined);
@@ -140,21 +183,13 @@ export async function syncAllProjects(
   }
 
   // If both failed or returned 0, try cached data even if expired
-  try {
-    const rawCache = localStorage.getItem(CACHE_KEY);
-    if (rawCache) {
-      const cached: CachedData = JSON.parse(rawCache);
-      if (cached.projects && cached.projects.length > 0) {
-        return {
-          projects: applyProjectOverrides(cached.projects),
-          isCached: true,
-          isFallback: false,
-          errors,
-        };
-      }
-    }
-  } catch {
-    // ignore
+  if (cachedProjects.length > 0) {
+    return {
+      projects: applyProjectOverrides(cachedProjects),
+      isCached: true,
+      isFallback: false,
+      errors,
+    };
   }
 
   // Fallback to static data
