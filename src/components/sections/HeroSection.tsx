@@ -83,17 +83,19 @@ export const HeroSection: React.FC<HeroProps> = ({ onExploreProjects, onContactC
                   <ChevronRight className="w-4 h-4" />
                 </button>
 
-                <a
-                  href={profileData.socialLinks.cvUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => hudSound.playClick()}
-                  onMouseEnter={() => hudSound.playHover()}
-                  className="hud-btn-secondary px-4 py-3 text-sm flex items-center space-x-2 font-mono"
-                >
-                  <FileText className="w-4 h-4 text-[#00ff88]" />
-                  <span>{t.hero.downloadCv}</span>
-                </a>
+                {Boolean(profileData.socialLinks.cvUrl && profileData.socialLinks.cvUrl !== '#') && (
+                  <a
+                    href={lang === 'vi' ? './documents/cv-vi.pdf' : './documents/cv-en.pdf'}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => hudSound.playClick()}
+                    onMouseEnter={() => hudSound.playHover()}
+                    className="hud-btn-secondary px-4 py-3 text-sm flex items-center space-x-2 font-mono"
+                  >
+                    <FileText className="w-4 h-4 text-[#00ff88]" />
+                    <span>{t.hero.downloadCv}</span>
+                  </a>
+                )}
 
                 <button
                   onClick={() => {
@@ -147,9 +149,21 @@ export const HeroSection: React.FC<HeroProps> = ({ onExploreProjects, onContactC
                 <div className="aspect-square w-full max-w-[280px] mx-auto bg-slate-950 border border-[#00f0ff]/40 flex flex-col items-center justify-center p-6 relative overflow-hidden">
                   {/* Tech scan lines */}
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#00f0ff]/10 via-transparent to-transparent pointer-events-none" />
-                  <div className="w-24 h-24 rounded border-2 border-dashed border-[#00f0ff] flex items-center justify-center mb-4 relative animate-pulse">
-                    <Gamepad2 className="w-12 h-12 text-[#00f0ff]" />
-                  </div>
+                  
+                  {profileData.avatarUrl ? (
+                    <div className="w-28 h-28 rounded-full border-2 border-[#00f0ff] p-1 mb-3 relative overflow-hidden shadow-[0_0_20px_rgba(0,240,255,0.3)] group-hover:border-[#00ff88] transition-colors">
+                      <img
+                        src={profileData.avatarUrl}
+                        alt={profileData.name}
+                        className="w-full h-full object-cover object-top rounded-full"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-24 h-24 rounded border-2 border-dashed border-[#00f0ff] flex items-center justify-center mb-4 relative animate-pulse">
+                      <Gamepad2 className="w-12 h-12 text-[#00f0ff]" />
+                    </div>
+                  )}
+
                   <div className="text-center space-y-1">
                     <div className="font-mono text-sm font-bold text-white tracking-widest">
                       {profileData.avatarPlaceholderText}

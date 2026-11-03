@@ -55,14 +55,15 @@ export const ContactStation: React.FC<ContactStationProps> = ({
       onPointerOut={handlePointerOut}
       onClick={handleClick}
     >
-      {/* Floor Highlight Ring - Glow, Bobbing Float, Clockwise Rotation, Click Ripple */}
+      {/* Station Highlight Ring - At floor level, ascends to halfway up desk (y~0.5) when hovered */}
       <StationFloorRing
-        radius={[1.1, 1.18]}
+        radius={[1.05, 1.15]}
         color={accentColor}
         hovered={hovered}
         isSelected={isSelected}
         isClicked={clicked}
         position={[0, 0.02, 0]}
+        hoverHeight={0.48}
       />
 
       {/* 1. Terminal Desk Base */}

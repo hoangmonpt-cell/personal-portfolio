@@ -102,20 +102,31 @@ export const StationDetailModal: React.FC<StationDetailModalProps> = ({
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
                 {/* Left 8 Cols: Developer Profile & Bio */}
                 <div className="lg:col-span-8 flex flex-col justify-between space-y-3">
-                  <div>
-                    <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 bg-[#00f0ff]/10 border border-[#00f0ff]/30 text-[#00f0ff] font-mono text-[11px] tracking-wider mb-2">
-                      <Gamepad2 className="w-3 h-3" />
-                      <span>{t.hero.statusBadge}</span>
+                  <div className="flex items-start space-x-4">
+                    {profileData.avatarUrl && (
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-[#00f0ff] p-0.5 shrink-0 overflow-hidden shadow-[0_0_15px_rgba(0,240,255,0.25)]">
+                        <img
+                          src={profileData.avatarUrl}
+                          alt={profileData.name}
+                          className="w-full h-full object-cover object-top rounded-full"
+                        />
+                      </div>
+                    )}
+                    <div>
+                      <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 bg-[#00f0ff]/10 border border-[#00f0ff]/30 text-[#00f0ff] font-mono text-[11px] tracking-wider mb-2">
+                        <Gamepad2 className="w-3.5 h-3.5" />
+                        <span>{t.hero.statusBadge}</span>
+                      </div>
+                      <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+                        {profileData.name}
+                      </h1>
+                      <h2 className="text-sm sm:text-base font-semibold text-[#00f0ff] font-mono mt-0.5">
+                        {profileData.title[lang]}
+                      </h2>
+                      <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
+                        {profileData.tagline[lang]}
+                      </p>
                     </div>
-                    <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-                      {profileData.name}
-                    </h1>
-                    <h2 className="text-sm sm:text-base font-semibold text-[#00f0ff] font-mono mt-0.5">
-                      {profileData.title[lang]}
-                    </h2>
-                    <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
-                      {profileData.tagline[lang]}
-                    </p>
                   </div>
 
                   <div className="text-[11px] font-mono text-slate-400 bg-slate-900/90 p-2.5 border-l-2 border-[#00f0ff]">
@@ -132,15 +143,17 @@ export const StationDetailModal: React.FC<StationDetailModalProps> = ({
                       <FolderGit2 className="w-3.5 h-3.5" />
                       <span>{t.hero.viewProjects}</span>
                     </button>
-                    <a
-                      href={profileData.socialLinks.cvUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="hud-btn-secondary px-3.5 py-2 text-xs font-mono flex items-center space-x-1.5"
-                    >
-                      <FileText className="w-3.5 h-3.5 text-[#00ff88]" />
-                      <span>{t.hero.downloadCv}</span>
-                    </a>
+                    {Boolean(profileData.socialLinks.cvUrl && profileData.socialLinks.cvUrl !== '#') && (
+                      <a
+                        href={lang === 'vi' ? './documents/cv-vi.pdf' : './documents/cv-en.pdf'}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="hud-btn-secondary px-3.5 py-2 text-xs font-mono flex items-center space-x-1.5"
+                      >
+                        <FileText className="w-3.5 h-3.5 text-[#00ff88]" />
+                        <span>{t.hero.downloadCv}</span>
+                      </a>
+                    )}
                     <button
                       onClick={() => onNavigateStation('contact')}
                       className="hud-btn-secondary px-3.5 py-2 text-xs font-mono flex items-center space-x-1.5"
@@ -185,28 +198,28 @@ export const StationDetailModal: React.FC<StationDetailModalProps> = ({
                 <div className="p-3 bg-slate-900/60 border border-slate-800/80 rounded-sm">
                   <div className="text-xs font-bold font-mono text-[#00f0ff] flex items-center space-x-1.5 mb-1">
                     <Gamepad2 className="w-3.5 h-3.5" />
-                    <span>GAME SYSTEMS & PHYSICS</span>
+                    <span>{t.about.philosophyTitle}</span>
                   </div>
                   <p className="text-[11px] text-slate-300 line-clamp-2">
-                    Lập trình gameplay mượt mà, state machine, pooling pattern, URP shaders và tối ưu hóa GC Alloc.
+                    {t.about.philosophyDesc}
                   </p>
                 </div>
                 <div className="p-3 bg-slate-900/60 border border-slate-800/80 rounded-sm">
                   <div className="text-xs font-bold font-mono text-[#00ff88] flex items-center space-x-1.5 mb-1">
                     <Terminal className="w-3.5 h-3.5" />
-                    <span>SOFTWARE ARCHITECTURE</span>
+                    <span>{t.about.softwareTitle}</span>
                   </div>
                   <p className="text-[11px] text-slate-300 line-clamp-2">
-                    Kiến trúc code module hóa, SOLID, Observer, Service Locator, dễ mở rộng và kiểm thử tự động.
+                    {t.about.softwareDesc}
                   </p>
                 </div>
                 <div className="p-3 bg-slate-900/60 border border-slate-800/80 rounded-sm">
                   <div className="text-xs font-bold font-mono text-[#ffb800] flex items-center space-x-1.5 mb-1">
                     <CheckCircle2 className="w-3.5 h-3.5" />
-                    <span>AI-ASSISTED DEVELOPMENT</span>
+                    <span>{t.about.aiTitle}</span>
                   </div>
                   <p className="text-[11px] text-slate-300 line-clamp-2">
-                    Tận dụng AI và scripting để tăng tốc quy trình sản xuất, tự động hóa build CI/CD và debug.
+                    {t.about.aiDesc}
                   </p>
                 </div>
               </div>

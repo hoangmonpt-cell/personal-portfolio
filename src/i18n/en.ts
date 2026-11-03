@@ -19,7 +19,7 @@ export const en: TranslationType = {
     contactMe: 'Establish Contact',
     githubRepo: 'GitHub Repo',
     gitlabRepo: 'GitLab',
-    placeholderNotice: 'Personal data can be configured effortlessly in src/data/profile.ts',
+    placeholderNotice: 'Engineering Profile: Focused on Gameplay Systems, Runtime Optimization & AI Workflows',
   },
   about: {
     sectionTag: '// 01. PROFILE OVERVIEW',
@@ -33,7 +33,7 @@ export const en: TranslationType = {
     aiTitle: 'AI-Accelerated Workflows',
     aiDesc:
       'Employing AI agents to automate tedious boilerplate, iterate rapidly on gameplay prototypes, and streamline asset workflows.',
-    notice: 'Note: Formatted for Game Developer job applications. Please update with your verified credentials.',
+    notice: 'Professional portfolio focused on Game Development & Software Engineering.',
   },
   skills: {
     sectionTag: '// 02. TECHNICAL ARSENAL',

@@ -49,6 +49,7 @@ export const Workstation: React.FC<WorkstationProps> = ({ onSelect, isSelected =
         isSelected={isSelected}
         isClicked={clicked}
         position={[0, 0.022, 0.5]}
+        hoverHeight={0.52}
       />
 
       {/* 1. Desk Table */}
@@ -255,14 +256,14 @@ export const Workstation: React.FC<WorkstationProps> = ({ onSelect, isSelected =
 
       {/* 10. Coffee Mug */}
       <group position={[-0.85, 1.06, 0.1]}>
-        <mesh castShadow>
-          <cylinderGeometry args={[0.05, 0.045, 0.1, 16]} />
-          <meshStandardMaterial color="#e2e8f0" roughness={0.3} />
+        <mesh castShadow receiveShadow>
+          <cylinderGeometry args={[0.05, 0.045, 0.1, 24]} />
+          <meshStandardMaterial color="#e2e8f0" roughness={0.3} metalness={0.05} />
         </mesh>
-        {/* Coffee level */}
-        <mesh position={[0, 0.045, 0]}>
-          <cylinderGeometry args={[0.045, 0.045, 0.01, 16]} />
-          <meshBasicMaterial color="#38220f" />
+        {/* Coffee level - lowered below rim and radius reduced to prevent Z-fighting */}
+        <mesh position={[0, 0.032, 0]}>
+          <cylinderGeometry args={[0.042, 0.042, 0.005, 24]} />
+          <meshStandardMaterial color="#2d170b" roughness={0.2} metalness={0.1} />
         </mesh>
         {/* Handle */}
         <mesh position={[-0.065, 0, 0]}>

@@ -17,7 +17,7 @@ export const vi = {
     contactMe: 'Kết nối ngay',
     githubRepo: 'GitHub Repo',
     gitlabRepo: 'GitLab',
-    placeholderNotice: 'Dữ liệu cá nhân có thể tùy chỉnh dễ dàng tại src/data/profile.ts',
+    placeholderNotice: 'Hồ sơ chuyên môn: Trọng tâm Gameplay Systems, Tối ưu hóa Runtime & AI Workflows',
   },
   about: {
     sectionTag: '// 01. PROFILE OVERVIEW',
@@ -31,7 +31,7 @@ export const vi = {
     aiTitle: 'Ứng dụng AI trong Quy trình',
     aiDesc:
       'Tận dụng AI để tự động hóa các tác vụ lặp lại, dựng nguyên mẫu nhanh (rapid prototyping) và tăng tốc độ xử lý logic phức tạp.',
-    notice: 'Lưu ý: Đây là cấu trúc hồ sơ định hướng Game Developer. Vui lòng cập nhật thông tin cá nhân của bạn.',
+    notice: 'Hồ sơ chuyên môn định hướng Game Developer & Kỹ sư phần mềm.',
   },
   skills: {
     sectionTag: '// 02. TECHNICAL ARSENAL',

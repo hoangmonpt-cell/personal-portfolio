@@ -130,47 +130,55 @@ export const ContactSection: React.FC = () => {
                 </div>
               </a>
 
-              {/* LinkedIn */}
-              <a
-                href={profileData.socialLinks.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => hudSound.playClick()}
-                onMouseEnter={() => hudSound.playHover()}
-                className="p-4 bg-slate-950/80 border border-slate-800 hover:border-[#00f0ff] transition-all flex items-center space-x-3 group"
-              >
-                <div className="p-2 border border-slate-700 bg-slate-900 group-hover:border-[#00f0ff] transition-colors">
-                  <LinkedinIcon className="w-5 h-5 text-white group-hover:text-[#00f0ff]" />
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-white font-mono">LinkedIn</div>
-                  <div className="text-[11px] text-slate-400 font-mono">Connect Profile</div>
-                </div>
-              </a>
+              {/* LinkedIn (nếu có profile xác minh) */}
+              {Boolean(profileData.socialLinks.linkedin && !profileData.socialLinks.linkedin.includes('[')) && (
+                <a
+                  href={profileData.socialLinks.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => hudSound.playClick()}
+                  onMouseEnter={() => hudSound.playHover()}
+                  className="p-4 bg-slate-950/80 border border-slate-800 hover:border-[#00f0ff] transition-all flex items-center space-x-3 group"
+                >
+                  <div className="p-2 border border-slate-700 bg-slate-900 group-hover:border-[#00f0ff] transition-colors">
+                    <LinkedinIcon className="w-5 h-5 text-white group-hover:text-[#00f0ff]" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-white font-mono">LinkedIn</div>
+                    <div className="text-[11px] text-slate-400 font-mono">Connect Profile</div>
+                  </div>
+                </a>
+              )}
 
-              {/* CV Document */}
-              <a
-                href={profileData.socialLinks.cvUrl}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => hudSound.playClick()}
-                onMouseEnter={() => hudSound.playHover()}
-                className="p-4 bg-slate-950/80 border border-slate-800 hover:border-[#00ff88] transition-all flex items-center space-x-3 group"
-              >
-                <div className="p-2 border border-slate-700 bg-slate-900 group-hover:border-[#00ff88] transition-colors">
-                  <FileText className="w-5 h-5 text-white group-hover:text-[#00ff88]" />
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-white font-mono">Resume (CV)</div>
-                  <div className="text-[11px] text-slate-400 font-mono">PDF Document</div>
-                </div>
-              </a>
+              {/* CV Document (nếu đã có file) */}
+              {Boolean(profileData.socialLinks.cvUrl && profileData.socialLinks.cvUrl !== '#') && (
+                <a
+                  href={lang === 'vi' ? './documents/cv-vi.pdf' : './documents/cv-en.pdf'}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => hudSound.playClick()}
+                  onMouseEnter={() => hudSound.playHover()}
+                  className="p-4 bg-slate-950/80 border border-slate-800 hover:border-[#00ff88] transition-all flex items-center space-x-3 group"
+                >
+                  <div className="p-2 border border-slate-700 bg-slate-900 group-hover:border-[#00ff88] transition-colors">
+                    <FileText className="w-5 h-5 text-white group-hover:text-[#00ff88]" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-white font-mono">
+                      {lang === 'vi' ? 'Hồ sơ năng lực (CV)' : 'Resume (CV)'}
+                    </div>
+                    <div className="text-[11px] text-slate-400 font-mono">
+                      {lang === 'vi' ? 'Bản PDF Tiếng Việt' : 'English PDF Version'}
+                    </div>
+                  </div>
+                </a>
+              )}
             </div>
 
             <div className="text-xs font-mono text-slate-400 bg-slate-950/60 p-3 border-l-2 border-[#00f0ff]">
               {lang === 'vi' 
-                ? 'Thông tin liên hệ cần cập nhật link chính xác tại src/data/profile.ts trước khi gửi cho nhà tuyển dụng.'
-                : 'Please verify and configure your actual profile URLs in src/data/profile.ts before official distribution.'}
+                ? 'Phản hồi nhanh qua Email hoặc GitHub. Luôn sẵn sàng trao đổi chi tiết về các cơ hội Game Development & kỹ thuật.'
+                : 'Direct response via Email or GitHub. Always open to discussing Game Development and software engineering opportunities.'}
             </div>
 
           </div>

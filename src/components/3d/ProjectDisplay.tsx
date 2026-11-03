@@ -55,14 +55,15 @@ export const ProjectDisplay: React.FC<ProjectDisplayProps> = ({
       onPointerOut={handlePointerOut}
       onClick={handleClick}
     >
-      {/* Floor Highlight Ring - Glow, Bobbing Float, Clockwise Rotation, Click Ripple */}
+      {/* Floor Highlight Ring - At floor level, ascends to halfway up pedestal (y~0.5) when hovered */}
       <StationFloorRing
-        radius={[1.2, 1.28]}
+        radius={[1.15, 1.25]}
         color={accentColor}
         hovered={hovered}
         isSelected={isSelected}
         isClicked={clicked}
         position={[0, 0.02, 0]}
+        hoverHeight={0.48}
       />
 
       {/* 1. Pedestal Base - Sci-Fi Hexagonal Kiosk */}
@@ -78,12 +79,20 @@ export const ProjectDisplay: React.FC<ProjectDisplayProps> = ({
 
       {/* 2. Holographic Projector Emitter Lens */}
       <mesh position={[0, 0.92, 0]}>
-        <cylinderGeometry args={[0.45, 0.45, 0.04, 24]} />
+        <cylinderGeometry args={[0.45, 0.45, 0.04, 32]} />
         <meshStandardMaterial color="#0284c7" roughness={0.2} metalness={0.8} />
       </mesh>
-      <mesh position={[0, 0.94, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[0.4, 24]} />
-        <meshBasicMaterial color="#00f0ff" />
+      {/* Blue lens disc raised with depthWrite=false and polygonOffset to completely prevent Z-fighting */}
+      <mesh position={[0, 0.942, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[0.4, 32]} />
+        <meshBasicMaterial
+          color="#00f0ff"
+          transparent
+          opacity={0.85}
+          depthWrite={false}
+          polygonOffset
+          polygonOffsetFactor={-1}
+        />
       </mesh>
 
       {/* 3. Floating Holographic Project Display Group */}

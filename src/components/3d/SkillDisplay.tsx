@@ -50,6 +50,7 @@ export const SkillDisplay: React.FC<SkillDisplayProps> = ({ onSelect, isSelected
         isSelected={isSelected}
         isClicked={clicked}
         position={[0, 0.02, 0.5]}
+        hoverHeight={0.65}
       />
 
       {/* 1. Industrial Wooden / Steel Shelf Frame */}
