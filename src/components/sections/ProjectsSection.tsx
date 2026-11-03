@@ -96,6 +96,11 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ inModal = fals
         // 1. Featured projects ALWAYS prominent on top
         if (a.featured && !b.featured) return -1;
         if (!a.featured && b.featured) return 1;
+        if (a.featured && b.featured) {
+          const orderA = a.featuredOrder ?? 99;
+          const orderB = b.featuredOrder ?? 99;
+          if (orderA !== orderB) return orderA - orderB;
+        }
         // 2. Stars
         if (b.stars !== a.stars) return b.stars - a.stars;
         // 3. Date

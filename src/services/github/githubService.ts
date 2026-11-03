@@ -74,20 +74,32 @@ export async function fetchGitHubRepos(username: string): Promise<UnifiedProject
             const topics = Array.isArray(repo.topics) ? repo.topics : [];
             const lowerTopics = topics.map((t) => t.toLowerCase());
             const lowerLang = (repo.language || '').toLowerCase();
+            const lowerName = repo.name.toLowerCase();
+            const lowerDesc = (repo.description || '').toLowerCase();
 
             let category = 'software';
             if (
               lowerTopics.some((t) => t.includes('game') || t.includes('unity') || t.includes('unreal') || t.includes('godot')) ||
               lowerLang === 'c#' ||
-              lowerLang === 'c++'
+              lowerLang === 'c++' ||
+              lowerLang === 'shaderlab' ||
+              lowerName.includes('game') ||
+              lowerName.includes('idle') ||
+              lowerName.includes('fortress') ||
+              lowerDesc.includes('game') ||
+              lowerDesc.includes('tower defense') ||
+              lowerDesc.includes('defense')
             ) {
               category = 'game';
             } else if (
-              lowerTopics.some((t) => t.includes('ai') || t.includes('llm') || t.includes('machine-learning') || t.includes('gpt'))
+              lowerTopics.some((t) => t.includes('ai') || t.includes('llm') || t.includes('machine-learning') || t.includes('gpt')) ||
+              lowerName.includes('ai') ||
+              lowerDesc.includes('ai')
             ) {
               category = 'ai';
             } else if (
-              lowerTopics.some((t) => t.includes('tool') || t.includes('cli') || t.includes('automation'))
+              lowerTopics.some((t) => t.includes('tool') || t.includes('cli') || t.includes('automation')) ||
+              lowerName.includes('tool')
             ) {
               category = 'tool';
             } else if (

@@ -18,6 +18,7 @@ export interface UnifiedProject {
   visibility: string;
   category: string;
   featured: boolean;
+  featuredOrder?: number;
   thumbnail?: string;
   screenshots?: string[];
   caseStudyPath?: string;

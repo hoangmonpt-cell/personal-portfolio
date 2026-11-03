@@ -50,6 +50,7 @@ function applyProjectOverrides(projects: UnifiedProject[]): UnifiedProject[] {
       return {
         ...p,
         featured: true,
+        featuredOrder: override.featuredOrder ?? 99,
         category: override.category || p.category,
         thumbnail: override.thumbnail || p.thumbnail,
         screenshots: override.screenshots || p.screenshots,
