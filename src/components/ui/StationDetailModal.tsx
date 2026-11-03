@@ -52,35 +52,47 @@ export const StationDetailModal: React.FC<StationDetailModalProps> = ({
 
   return (
     <div 
-      className="hud-modal fixed inset-0 z-40 bg-black/80 backdrop-blur-md overflow-hidden no-scrollbar flex items-center justify-center p-3 sm:p-6"
+      className="hud-modal fixed inset-0 z-40 overflow-hidden no-scrollbar pointer-events-auto"
       role="dialog"
       aria-modal="true"
-      onClick={onClose}
     >
+      {/* Dedicated full backdrop layer - clicking outside dialog closes modal */}
       <div 
-        className="hud-modal relative w-full max-w-5xl bg-[#090d16] border border-[#00f0ff]/40 shadow-[0_0_50px_rgba(0,240,255,0.18)] rounded-sm overflow-hidden animate-in fade-in zoom-in-95 duration-200"
-        onClick={(e) => e.stopPropagation()}
-      >
-        
-        {/* Top Header Bar */}
-        <div className="bg-[#0e1626] px-4 sm:px-6 py-3 border-b border-slate-800 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={() => {
-                hudSound.playClick();
-                onClose();
-              }}
-              className="hud-btn-secondary px-2.5 py-1 text-xs font-mono flex items-center space-x-1"
-              aria-label="Back to 3D Room"
-            >
-              <ChevronLeft className="w-3.5 h-3.5" />
-              <span>{lang === 'vi' ? 'Toàn cảnh' : 'Overview'}</span>
-            </button>
-            <div className="flex items-center space-x-2 text-xs font-mono text-[#00f0ff]">
-              <span className="w-2 h-2 rounded-full bg-[#00ff88] animate-ping" />
-              <span className="font-bold uppercase tracking-wider">{preset.label[lang]}</span>
+        className="fixed inset-0 bg-black/80 backdrop-blur-md transition-opacity cursor-pointer z-0"
+        aria-hidden="true"
+        onClick={(e) => {
+          e.stopPropagation();
+          hudSound.playClick();
+          onClose();
+        }}
+      />
+
+      {/* Modal Centered Container */}
+      <div className="relative min-h-screen flex items-center justify-center p-3 sm:p-6 pointer-events-none z-10">
+        <div 
+          className="hud-modal relative w-full max-w-5xl bg-[#090d16] border border-[#00f0ff]/40 shadow-[0_0_50px_rgba(0,240,255,0.18)] rounded-sm overflow-hidden animate-in fade-in zoom-in-95 duration-200 pointer-events-auto"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Top Header Bar */}
+          <div className="bg-[#0e1626] px-4 sm:px-6 py-3 border-b border-slate-800 flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <button
+                type="button"
+                onClick={() => {
+                  hudSound.playClick();
+                  onClose();
+                }}
+                className="hud-btn-secondary px-2.5 py-1 text-xs font-mono flex items-center space-x-1 cursor-pointer"
+                aria-label="Back to 3D Room"
+              >
+                <ChevronLeft className="w-3.5 h-3.5" />
+                <span>{lang === 'vi' ? 'Toàn cảnh' : 'Overview'}</span>
+              </button>
+              <div className="flex items-center space-x-2 text-xs font-mono text-[#00f0ff]">
+                <span className="w-2 h-2 rounded-full bg-[#00ff88] animate-ping" />
+                <span className="font-bold uppercase tracking-wider">{preset.label[lang]}</span>
+              </div>
             </div>
-          </div>
 
           <button
             onClick={() => {
@@ -310,8 +322,8 @@ export const StationDetailModal: React.FC<StationDetailModalProps> = ({
             </div>
           )}
         </div>
-
       </div>
     </div>
+  </div>
   );
 };

@@ -21,8 +21,8 @@ function createGlowTexture(): THREE.CanvasTexture {
   if (ctx) {
     const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
     gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-    gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.85)');
-    gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.35)');
+    gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.9)');
+    gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.4)');
     gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 64, 64);
@@ -45,9 +45,9 @@ export const StationFloorRing: React.FC<StationFloorRingProps> = ({
   const primaryRingRef = useRef<THREE.Mesh>(null);
   const innerRingRef = useRef<THREE.Mesh>(null);
   const outerRibbonRef = useRef<THREE.Mesh>(null);
-  const groundAuraRef = useRef<THREE.Mesh>(null);
   const pulseRingRef = useRef<THREE.Mesh>(null);
   const pointsRef = useRef<THREE.Points>(null);
+  const starsRef = useRef<THREE.Points>(null);
 
   // Click ripple shockwave state
   const [shockwaveActive, setShockwaveActive] = useState(false);
@@ -56,7 +56,7 @@ export const StationFloorRing: React.FC<StationFloorRingProps> = ({
   // Create texture once
   const glowTexture = useMemo(() => createGlowTexture(), []);
 
-  // Particle system configuration: 70 particles orbiting and rising vertically (inspired by reference images 3, 4, 5)
+  // 1. Particle system configuration: 70 particles orbiting and rising vertically
   const particleCount = 70;
   const { positions, originalData } = useMemo(() => {
     const pos = new Float32Array(particleCount * 3);
@@ -82,6 +82,23 @@ export const StationFloorRing: React.FC<StationFloorRingProps> = ({
     return { positions: pos, originalData: data };
   }, [radius]);
 
+  // 2. Field of Twinkling Star Particles across the ground disc (replaces the flat/muddy solid circle disc)
+  const starCount = 140;
+  const { starPositions } = useMemo(() => {
+    const pos = new Float32Array(starCount * 3);
+    const [, outerR] = radius;
+    const maxR = outerR * 1.35;
+
+    for (let i = 0; i < starCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const r = Math.sqrt(Math.random()) * maxR; // Uniform distribution across disc
+      pos[i * 3] = Math.cos(angle) * r;
+      pos[i * 3 + 1] = 0.008 + (Math.random() - 0.5) * 0.004;
+      pos[i * 3 + 2] = Math.sin(angle) * r;
+    }
+    return { starPositions: pos };
+  }, [radius]);
+
   useEffect(() => {
     if (isClicked) {
       setShockwaveActive(true);
@@ -94,7 +111,7 @@ export const StationFloorRing: React.FC<StationFloorRingProps> = ({
     const time = state.clock.elapsedTime;
     const active = hovered || isSelected;
 
-    // 1. Khi di con trỏ vào thì bay lên cao khoảng một nửa vật thể và bay lơ lửng, khi ra thì về lại dưới chân
+    // Hover bobbing
     if (floatingGroupRef.current) {
       const targetY = active 
         ? by + hoverHeight + Math.sin(time * 3.0) * 0.025 
@@ -106,25 +123,24 @@ export const StationFloorRing: React.FC<StationFloorRingProps> = ({
       );
     }
 
-    // 2. Xoay tròn các dải năng lượng đồng tâm mượt mà (thuần mặt phẳng ngang, không nghiêng để không bị cắt sàn)
+    // Rotating concentric rings
     if (primaryRingRef.current) {
-      primaryRingRef.current.rotation.z -= delta * (active ? 2.2 : 0.5);
+      primaryRingRef.current.rotation.z -= delta * (active ? 2.2 : 0.6);
     }
     if (innerRingRef.current) {
-      innerRingRef.current.rotation.z += delta * (active ? 1.6 : 0.35);
+      innerRingRef.current.rotation.z += delta * (active ? 1.6 : 0.4);
     }
     if (outerRibbonRef.current) {
-      outerRibbonRef.current.rotation.z -= delta * (active ? 1.0 : 0.25);
+      outerRibbonRef.current.rotation.z -= delta * (active ? 1.0 : 0.28);
     }
 
-    // 3. Đĩa hào quang trên sàn sáng theo nhịp thở êm ái
-    if (groundAuraRef.current) {
-      const auraMat = groundAuraRef.current.material as THREE.MeshBasicMaterial;
-      const baseAura = active ? 0.35 : 0.12;
-      auraMat.opacity = baseAura + Math.sin(time * 2.8) * 0.05;
+    // Ground twinkling stars breathing animation
+    if (starsRef.current) {
+      const mat = starsRef.current.material as THREE.PointsMaterial;
+      mat.opacity = 0.65 + Math.sin(time * 2.4) * 0.25;
     }
 
-    // 4. Các hạt bụi sáng lấp lánh xoay quanh và bay bốc lên trên
+    // Rising orbiting particles
     if (pointsRef.current) {
       const geo = pointsRef.current.geometry;
       const posAttr = geo.attributes.position as THREE.BufferAttribute;
@@ -139,11 +155,9 @@ export const StationFloorRing: React.FC<StationFloorRingProps> = ({
         const speed = originalData[baseIdx + 2] * speedMult;
         let y = array[i * 3 + 1];
 
-        // Quỹ đạo xoay quanh vòng
         angle += delta * speed * 0.7;
         originalData[baseIdx] = angle;
 
-        // Bốc lên theo phương thẳng đứng
         y += delta * (0.12 + speed * 0.08);
         if (y > maxHeight) {
           y = 0;
@@ -156,7 +170,7 @@ export const StationFloorRing: React.FC<StationFloorRingProps> = ({
       posAttr.needsUpdate = true;
     }
 
-    // 5. Click Shockwave Ripple Effect
+    // Click Shockwave Ripple Effect
     if (shockwaveActive && pulseRingRef.current) {
       shockwaveProgress.current += delta * 2.8;
       const p = shockwaveProgress.current;
@@ -179,25 +193,28 @@ export const StationFloorRing: React.FC<StationFloorRingProps> = ({
 
   return (
     <group position={[posX, 0, posZ]}>
-      {/* 1. Đĩa hào quang cố định luôn ở dưới chân sàn (Soft Ground Glow Disc) */}
-      <mesh
-        ref={groundAuraRef}
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, 0.008, 0]}
-      >
-        <circleGeometry args={[outerR * 1.35, 48]} />
-        <meshBasicMaterial
+      {/* 1. Field of Twinkling Star Particles across the ground (Replaces solid gray/cyan ground disc) */}
+      <points ref={starsRef} position={[0, 0, 0]}>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            args={[starPositions, 3]}
+          />
+        </bufferGeometry>
+        <pointsMaterial
+          size={0.065}
           color={color}
+          map={glowTexture}
           transparent
           blending={THREE.AdditiveBlending}
           depthWrite={false}
-          opacity={hovered || isSelected ? 0.35 : 0.12}
+          opacity={0.8}
         />
-      </mesh>
+      </points>
 
-      {/* 2. Cụm vòng năng lượng và bụi sáng bay lơ lửng khi hover (Floating Group) */}
+      {/* 2. Floating Concentric Glow Rings Group */}
       <group ref={floatingGroupRef} position={[0, posY, 0]}>
-        {/* Lõi ruy băng năng lượng phát sáng chính */}
+        {/* Lõi ruy băng năng lượng phát sáng chính (Intense glowing ring) */}
         <mesh
           ref={primaryRingRef}
           rotation={[-Math.PI / 2, 0, 0]}
@@ -208,7 +225,22 @@ export const StationFloorRing: React.FC<StationFloorRingProps> = ({
             transparent
             blending={THREE.AdditiveBlending}
             depthWrite={false}
-            opacity={hovered || isSelected ? 0.95 : 0.45}
+            opacity={hovered || isSelected ? 1.0 : 0.8}
+          />
+        </mesh>
+
+        {/* Lõi tia sáng laser cường độ cao màu trắng (White neon laser core triggering bloom) */}
+        <mesh
+          rotation={[-Math.PI / 2, 0, 0]}
+          position={[0, 0.001, 0]}
+        >
+          <ringGeometry args={[(innerR + outerR) * 0.5 - 0.015, (innerR + outerR) * 0.5 + 0.015, 64]} />
+          <meshBasicMaterial
+            color="#ffffff"
+            transparent
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
+            opacity={0.95}
           />
         </mesh>
 
@@ -216,7 +248,7 @@ export const StationFloorRing: React.FC<StationFloorRingProps> = ({
         <mesh
           ref={innerRingRef}
           rotation={[-Math.PI / 2, 0, 0]}
-          position={[0, 0.001, 0]}
+          position={[0, 0.002, 0]}
         >
           <ringGeometry args={[innerR * 0.88, innerR * 0.92, 64]} />
           <meshBasicMaterial
@@ -224,7 +256,7 @@ export const StationFloorRing: React.FC<StationFloorRingProps> = ({
             transparent
             blending={THREE.AdditiveBlending}
             depthWrite={false}
-            opacity={hovered || isSelected ? 0.8 : 0.3}
+            opacity={hovered || isSelected ? 0.9 : 0.5}
           />
         </mesh>
 
@@ -232,15 +264,15 @@ export const StationFloorRing: React.FC<StationFloorRingProps> = ({
         <mesh
           ref={outerRibbonRef}
           rotation={[-Math.PI / 2, 0, 0]}
-          position={[0, 0.002, 0]}
+          position={[0, 0.003, 0]}
         >
-          <ringGeometry args={[outerR + 0.03, outerR + 0.06, 64]} />
+          <ringGeometry args={[outerR + 0.04, outerR + 0.08, 64]} />
           <meshBasicMaterial
             color={color}
             transparent
             blending={THREE.AdditiveBlending}
             depthWrite={false}
-            opacity={hovered || isSelected ? 0.65 : 0.22}
+            opacity={hovered || isSelected ? 0.75 : 0.35}
           />
         </mesh>
 
@@ -259,7 +291,7 @@ export const StationFloorRing: React.FC<StationFloorRingProps> = ({
             transparent
             blending={THREE.AdditiveBlending}
             depthWrite={false}
-            opacity={hovered || isSelected ? 0.95 : 0.55}
+            opacity={hovered || isSelected ? 0.95 : 0.65}
           />
         </points>
 
@@ -267,10 +299,10 @@ export const StationFloorRing: React.FC<StationFloorRingProps> = ({
         <mesh
           ref={pulseRingRef}
           rotation={[-Math.PI / 2, 0, 0]}
-          position={[0, 0.003, 0]}
+          position={[0, 0.004, 0]}
           visible={shockwaveActive}
         >
-          <ringGeometry args={[innerR, outerR + 0.06, 64]} />
+          <ringGeometry args={[innerR, outerR + 0.08, 64]} />
           <meshBasicMaterial
             color={color}
             transparent

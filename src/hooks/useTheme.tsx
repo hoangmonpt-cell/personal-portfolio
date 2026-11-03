@@ -18,9 +18,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     try {
       const saved = localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode;
       if (saved === 'dark' || saved === 'light') return saved;
-      if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: light)').matches) {
-        return 'light';
-      }
     } catch {
       // ignore
     }

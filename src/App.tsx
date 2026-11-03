@@ -15,10 +15,17 @@ import type { QualityTier } from './components/3d/RoomLighting';
 import { hudSound } from './utils/sound';
 import { Cpu } from 'lucide-react';
 
-// Lazy load 3D Scene to keep initial DOM interactive and fast
+// Lazy load Experience A: Room
 const RoomScene = lazy(() =>
   import('./components/3d/RoomScene').then((m) => ({ default: m.RoomScene }))
 );
+
+// Lazy load Experience B: Scroll 3D (Continuous Cinematic 3D Journey)
+const Scroll3DExperience = lazy(() =>
+  import('./components/scroll3d/Scroll3DExperience').then((m) => ({ default: m.Scroll3DExperience }))
+);
+
+export type ExperienceMode = 'room' | 'scroll3d';
 
 function isWebGLSupported(): boolean {
   try {
@@ -34,13 +41,16 @@ function isWebGLSupported(): boolean {
 
 export function AppContent() {
   const { config: themeConfig } = useTheme();
-  const [viewMode, setViewMode] = useState<'3d' | '2d'>(() => {
+  const [webGLAvailable] = useState(() => isWebGLSupported());
+
+  // Dual 3D Experience Selector: 'room' (3D ON) vs 'scroll3d' (3D OFF / Continuous Cinematic 3D)
+  const [experienceMode, setExperienceMode] = useState<ExperienceMode>(() => {
     try {
-      const saved = localStorage.getItem('portfolio_view_mode');
-      if (saved === '2d' || saved === '3d') return saved;
-      return isWebGLSupported() ? '3d' : '2d';
+      const saved = localStorage.getItem('portfolio_experience_mode');
+      if (saved === 'room' || saved === 'scroll3d') return saved;
+      return 'room';
     } catch {
-      return '3d';
+      return 'room';
     }
   });
 
@@ -51,11 +61,11 @@ export function AppContent() {
 
   useEffect(() => {
     try {
-      localStorage.setItem('portfolio_view_mode', viewMode);
+      localStorage.setItem('portfolio_experience_mode', experienceMode);
     } catch {
       // ignore
     }
-  }, [viewMode]);
+  }, [experienceMode]);
 
   const handleSelectStation = (stationId: CameraStationId) => {
     hudSound.playClick();
@@ -80,8 +90,10 @@ export function AppContent() {
     });
   };
 
-  const handleToggleViewMode = () => {
-    setViewMode((prev) => (prev === '3d' ? '2d' : '3d'));
+  // Toggle between Experience A (Room) and Experience B (Scroll 3D)
+  const handleToggleExperience = () => {
+    hudSound.playClick();
+    setExperienceMode((prev) => (prev === 'room' ? 'scroll3d' : 'room'));
   };
 
   const scrollToClassicSection = (sectionId: string) => {
@@ -92,10 +104,33 @@ export function AppContent() {
     }
   };
 
+  // Fallback if WebGL fails entirely on low-end hardware
+  if (!webGLAvailable) {
+    return (
+      <div className="min-h-screen bg-[#070a0f] text-slate-100 selection:bg-[#00f0ff]/30 selection:text-[#00f0ff] overflow-x-hidden pt-24 sm:pt-28">
+        <Navbar 
+          activeSection={classicSection} 
+          onNavigate={scrollToClassicSection}
+        />
+        <main>
+          <HeroSection
+            onExploreProjects={() => scrollToClassicSection('projects')}
+            onContactClick={() => scrollToClassicSection('contact')}
+          />
+          <AboutSection />
+          <SkillsSection />
+          <ProjectsSection />
+          <ContactSection />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#070a0f] text-slate-100 selection:bg-[#00f0ff]/30 selection:text-[#00f0ff] overflow-x-hidden">
-      {viewMode === '3d' ? (
-        /* 3D Stylized Developer Room Experience */
+      {experienceMode === 'room' ? (
+        /* ─── EXPERIENCE A: INTERACTIVE 3D DEVELOPER ROOM ─── */
         <div className="relative w-screen h-screen overflow-hidden">
           <Suspense
             fallback={
@@ -124,11 +159,11 @@ export function AppContent() {
             activeStation={activeStation}
             cameraMode={cameraMode}
             qualityTier={qualityTier}
-            viewMode={viewMode}
+            viewMode="room"
             onSelectStation={handleSelectStation}
             onToggleCameraMode={handleToggleCameraMode}
             onCycleQuality={handleCycleQuality}
-            onToggleViewMode={handleToggleViewMode}
+            onToggleViewMode={handleToggleExperience}
             onResetCamera={handleResetCamera}
           />
 
@@ -140,27 +175,26 @@ export function AppContent() {
           />
         </div>
       ) : (
-        /* Classic 2D Portfolio View (Accessible Fallback) */
-        <div className="relative pt-24 sm:pt-28">
-          <Navbar 
-            activeSection={classicSection} 
-            onNavigate={scrollToClassicSection}
-            onEnter3D={() => setViewMode('3d')}
+        /* ─── EXPERIENCE B: CONTINUOUS CINEMATIC 3D SCROLL JOURNEY ─── */
+        <Suspense
+          fallback={
+            <div 
+              className="w-full h-screen flex flex-col items-center justify-center font-mono space-y-3"
+              style={{ backgroundColor: themeConfig.canvasBgColor, color: themeConfig.accentPointColor }}
+            >
+              <Cpu className="w-10 h-10 animate-spin" style={{ color: themeConfig.accentPointColor }} />
+              <span className="text-xs uppercase tracking-widest animate-pulse">
+                INITIALIZING 3D CINEMATIC JOURNEY...
+              </span>
+            </div>
+          }
+        >
+          <Scroll3DExperience
+            onSwitchToRoom={() => setExperienceMode('room')}
+            qualityTier={qualityTier}
+            onCycleQuality={handleCycleQuality}
           />
-
-          <main>
-            <HeroSection
-              onExploreProjects={() => scrollToClassicSection('projects')}
-              onContactClick={() => scrollToClassicSection('contact')}
-            />
-            <AboutSection />
-            <SkillsSection />
-            <ProjectsSection />
-            <ContactSection />
-          </main>
-
-          <Footer />
-        </div>
+        </Suspense>
       )}
     </div>
   );

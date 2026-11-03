@@ -22,33 +22,61 @@ interface CaseStudyModalProps {
 export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudyId, onClose }) => {
   const { lang, t } = useI18n();
 
+  // Close on Escape key
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   if (!caseStudyId) return null;
 
   const data = caseStudiesData[caseStudyId];
   if (!data) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6">
-      <div className="relative w-full max-w-4xl bg-[#0b0f19] border border-[#00f0ff]/50 shadow-[0_0_50px_rgba(0,240,255,0.2)] rounded-sm overflow-hidden my-8">
-        
-        {/* Top HUD Bar */}
-        <div className="bg-[#0e1626] px-6 py-4 border-b border-slate-800 flex items-center justify-between">
-          <div className="flex items-center space-x-2 text-xs font-mono text-[#00f0ff]">
-            <span className="w-2 h-2 rounded-full bg-[#00ff88] animate-ping" />
-            <span className="tracking-widest uppercase">CASE STUDY // SPECIFICATION</span>
-          </div>
+    <div className="fixed inset-0 z-50 overflow-y-auto pointer-events-auto">
+      {/* Dedicated full backdrop layer - clicking anywhere outside dialog closes modal */}
+      <div 
+        className="fixed inset-0 bg-black/80 backdrop-blur-md transition-opacity cursor-pointer z-0"
+        aria-hidden="true"
+        onClick={(e) => {
+          e.stopPropagation();
+          hudSound.playClick();
+          onClose();
+        }}
+      />
 
-          <button
-            onClick={() => {
-              hudSound.playClick();
-              onClose();
-            }}
-            className="p-1.5 text-slate-400 hover:text-white border border-slate-700 hover:border-[#00f0ff] transition-all"
-            aria-label="Close Case Study"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+      {/* Modal Centered Container */}
+      <div className="relative min-h-screen flex items-center justify-center p-3 sm:p-6 pointer-events-none z-10">
+        <div 
+          className="relative w-full max-w-4xl bg-[#0b0f19] border border-[#00f0ff]/50 shadow-[0_0_50px_rgba(0,240,255,0.2)] rounded-sm overflow-hidden my-6 pointer-events-auto"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Top HUD Bar */}
+          <div className="bg-[#0e1626] px-6 py-4 border-b border-slate-800 flex items-center justify-between">
+            <div className="flex items-center space-x-2 text-xs font-mono text-[#00f0ff]">
+              <span className="w-2 h-2 rounded-full bg-[#00ff88] animate-ping" />
+              <span className="tracking-widest uppercase">CASE STUDY // SPECIFICATION</span>
+            </div>
+
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                hudSound.playClick();
+                onClose();
+              }}
+              className="p-1.5 text-slate-400 hover:text-white border border-slate-700 hover:border-[#00f0ff] transition-all cursor-pointer"
+              aria-label="Close Case Study"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
         {/* Content Body */}
         <div className="p-6 sm:p-8 space-y-8 max-h-[80vh] overflow-y-auto">
@@ -212,10 +240,9 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudyId, onC
               </a>
             )}
           </div>
-
         </div>
-
       </div>
     </div>
+  </div>
   );
 };

@@ -9,7 +9,6 @@ import {
   Volume2, 
   VolumeX, 
   Globe, 
-  Layers, 
   RotateCcw, 
   Monitor, 
   FolderGit2, 
@@ -29,7 +28,7 @@ interface RoomHUDProps {
   activeStation: CameraStationId;
   cameraMode: CameraMode;
   qualityTier: QualityTier;
-  viewMode: '3d' | '2d';
+  viewMode: 'room' | 'scroll3d' | '3d' | '2d';
   onSelectStation: (id: CameraStationId) => void;
   onToggleCameraMode: () => void;
   onCycleQuality: () => void;
@@ -151,17 +150,19 @@ export const RoomHUD: React.FC<RoomHUDProps> = ({
               <span className="text-[11px]">{qualityTier.toUpperCase()}</span>
             </button>
 
-            {/* 2D / 3D Mode Toggle */}
+            {/* EXPERIENCE SELECTOR BUTTON (3D ON: ROOM -> SCROLL 3D) */}
             <button
+              data-mode={viewMode}
               onClick={() => {
                 hudSound.playClick();
                 onToggleViewMode();
               }}
-              title={lang === 'vi' ? 'Chuyển đổi giữa 3D Room và 2D Classic' : 'Toggle between 3D Room and 2D Classic'}
-              className="px-2.5 py-1.5 border border-[#00ff88]/50 text-[#00ff88] bg-[#00ff88]/10 hover:bg-[#00ff88]/20 font-mono text-xs font-bold transition-all flex items-center space-x-1 hud-panel"
+              title={lang === 'vi' ? 'Chuyển sang Hành trình Cuộn 3D (Scroll 3D)' : 'Switch to Continuous 3D Scroll Journey'}
+              className="px-2.5 py-1.5 border border-[#00f0ff] text-[#00f0ff] bg-[#00f0ff]/15 hover:bg-[#00f0ff]/25 font-mono text-xs font-bold transition-all flex items-center space-x-1.5 hud-panel cursor-pointer shadow-[0_0_15px_rgba(0,240,255,0.3)]"
             >
-              <Layers className="w-3.5 h-3.5" />
-              <span>{viewMode.toUpperCase()}</span>
+              <Boxes className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">3D:</span>
+              <span>SCROLL ➔</span>
             </button>
 
             {/* SFX Audio */}
