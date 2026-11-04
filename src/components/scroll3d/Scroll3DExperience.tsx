@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useTheme } from '../../hooks/useTheme';
 import { useI18n } from '../../i18n';
 import { hudSound } from '../../utils/sound';
 import { scrollStore, type ScrollState } from './utils/scrollStore';
@@ -7,14 +6,13 @@ import { SCROLL_SECTIONS } from './utils/cameraPath';
 import { ScrollWorldCanvas } from './ScrollWorldCanvas';
 import { ScrollSectionOverlay } from './ScrollSectionOverlay';
 import { ScrollTimelineHUD } from './ScrollTimelineHUD';
+import { ROOM_THEMES } from '../../data/roomThemes';
 import type { QualityTier } from '../3d/RoomLighting';
 import { 
   Cpu, 
   Volume2, 
   VolumeX, 
   Globe, 
-  Sun, 
-  Moon, 
   Boxes, 
   Sliders
 } from 'lucide-react';
@@ -30,7 +28,6 @@ export const Scroll3DExperience: React.FC<Scroll3DExperienceProps> = ({
   qualityTier,
   onCycleQuality,
 }) => {
-  const { theme, config: themeConfig, toggleTheme } = useTheme();
   const { lang, t, toggleLanguage } = useI18n();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [audioActive, setAudioActive] = useState(() => hudSound.isEnabled());
@@ -156,9 +153,9 @@ export const Scroll3DExperience: React.FC<Scroll3DExperienceProps> = ({
 
   return (
     <div className="relative w-screen h-screen overflow-hidden select-none bg-[#070a0f] text-slate-100 font-sans">
-      {/* 1. Full-Screen WebGL Canvas (Continuous 3D Spatial World) */}
+      {/* 1. Full-Screen WebGL Canvas (Continuous 3D Spatial World - Locked to Dark Void) */}
       <ScrollWorldCanvas
-        themeConfig={themeConfig}
+        themeConfig={ROOM_THEMES.dark}
         qualityTier={qualityTier}
         reducedMotion={reducedMotion}
       />
@@ -236,20 +233,6 @@ export const Scroll3DExperience: React.FC<Scroll3DExperienceProps> = ({
             }`}
           >
             {audioActive ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-          </button>
-
-          {/* Theme Toggle Button */}
-          <button
-            data-testid="theme-toggle"
-            onClick={() => {
-              hudSound.playClick();
-              toggleTheme();
-            }}
-            title={theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
-            aria-label="Toggle Theme"
-            className="p-1.5 border border-slate-700 text-xs font-mono text-slate-300 hover:text-white hud-panel bg-[#0a0d14]/90"
-          >
-            {theme === 'light' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-[#00f0ff]" />}
           </button>
 
           {/* Language Toggle Button */}

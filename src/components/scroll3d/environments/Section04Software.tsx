@@ -71,7 +71,7 @@ export const Section04Software: React.FC<SectionProps> = ({ theme }) => {
           <mesh position={[0, tier.h / 2, 0]} castShadow receiveShadow>
             <boxGeometry args={[1.7, tier.h, 1.7]} />
             <meshStandardMaterial
-              color={isDark ? '#0b1322' : '#cbd5e1'}
+              color={isDark ? '#0b1322' : '#f8fafc'}
               metalness={0.88}
               roughness={0.18}
             />
@@ -81,7 +81,7 @@ export const Section04Software: React.FC<SectionProps> = ({ theme }) => {
           <mesh position={[0, tier.h + 0.05, 0]} castShadow receiveShadow>
             <boxGeometry args={[1.76, 0.1, 1.76]} />
             <meshStandardMaterial
-              color={isDark ? '#1e293b' : '#94a3b8'}
+              color={isDark ? '#1e293b' : '#ffffff'}
               metalness={0.95}
               roughness={0.12}
             />

@@ -22,7 +22,7 @@ export const en: TranslationType = {
     placeholderNotice: 'Engineering Profile: Focused on Gameplay Systems, Runtime Optimization & AI Workflows',
   },
   about: {
-    sectionTag: '// 01. PROFILE OVERVIEW',
+    sectionTag: '// 06. PROFILE OVERVIEW',
     sectionTitle: 'ENGINEERING PROFILE',
     philosophyTitle: 'Game Dev Philosophy',
     philosophyDesc:
@@ -45,7 +45,7 @@ export const en: TranslationType = {
     verifiedNotice: 'Skills catalogue displays verified technologies and production-tested patterns.',
   },
   projects: {
-    sectionTag: '// 03. MISSION ARCHIVE',
+    sectionTag: '// 02. MISSION ARCHIVE',
     sectionTitle: 'OPEN SOURCE ARCHIVE',
     sectionDesc: 'Directly synchronized from GitHub REST API and GitLab Projects API.',
     searchPlaceholder: 'Filter projects by title, stack, or keyword...',
@@ -92,7 +92,7 @@ export const en: TranslationType = {
     testing: 'Validation & Benchmarks',
   },
   contact: {
-    sectionTag: '// 04. TRANSMISSION TERMINAL',
+    sectionTag: '// 07. TRANSMISSION TERMINAL',
     sectionTitle: 'TRANSMISSION TERMINAL',
     sectionDesc: 'Available for game studio opportunities, software engineering roles, or technical collaborations.',
     emailLabel: 'Direct Frequency (Email)',

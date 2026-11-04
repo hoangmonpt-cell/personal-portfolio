@@ -78,7 +78,7 @@ export const Section03GameDev: React.FC<SectionProps> = ({ theme }) => {
         <mesh position={[0, 1.2, 0]} castShadow receiveShadow>
           <cylinderGeometry args={[0.5, 0.7, 2.4, 24]} />
           <meshStandardMaterial
-            color={isDark ? '#0f172a' : '#cbd5e1'}
+            color={isDark ? '#0f172a' : '#f8fafc'}
             metalness={0.92}
             roughness={0.18}
           />
@@ -88,7 +88,7 @@ export const Section03GameDev: React.FC<SectionProps> = ({ theme }) => {
           <meshStandardMaterial
             color={cyanColor}
             emissive={cyanColor}
-            emissiveIntensity={isDark ? 1.4 : 0.5}
+            emissiveIntensity={isDark ? 1.4 : 0.8}
           />
         </mesh>
       </group>
@@ -100,7 +100,7 @@ export const Section03GameDev: React.FC<SectionProps> = ({ theme }) => {
           <mesh rotation={[-Math.PI / 2, 0, 0]} castShadow>
             <torusGeometry args={[2.6, 0.04, 16, 64]} />
             <meshStandardMaterial
-              color={isDark ? '#1e293b' : '#94a3b8'}
+              color={isDark ? '#1e293b' : '#e2e8f0'}
               metalness={0.95}
               roughness={0.15}
             />

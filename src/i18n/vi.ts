@@ -20,7 +20,7 @@ export const vi = {
     placeholderNotice: 'Hồ sơ chuyên môn: Trọng tâm Gameplay Systems, Tối ưu hóa Runtime & AI Workflows',
   },
   about: {
-    sectionTag: '// 01. PROFILE OVERVIEW',
+    sectionTag: '// 06. PROFILE OVERVIEW',
     sectionTitle: 'HỒ SƠ NĂNG LỰC',
     philosophyTitle: 'Triết lý Phát triển Game',
     philosophyDesc:
@@ -43,7 +43,7 @@ export const vi = {
     verifiedNotice: 'Danh mục kỹ năng thể hiện các công nghệ và giải pháp thực tế đã áp dụng.',
   },
   projects: {
-    sectionTag: '// 03. MISSION ARCHIVE',
+    sectionTag: '// 02. MISSION ARCHIVE',
     sectionTitle: 'KHO DỰ ÁN MÃ NGUỒN MỞ',
     sectionDesc: 'Tự động đồng bộ hóa trực tiếp từ GitHub REST API và GitLab Projects API.',
     searchPlaceholder: 'Tìm kiếm dự án theo tên hoặc công nghệ...',
@@ -90,7 +90,7 @@ export const vi = {
     testing: 'Kết quả kiểm thử & Hiệu năng',
   },
   contact: {
-    sectionTag: '// 04. TRANSMISSION TERMINAL',
+    sectionTag: '// 07. TRANSMISSION TERMINAL',
     sectionTitle: 'KẾT NỐI LIÊN LẠC',
     sectionDesc: 'Sẵn sàng thảo luận về các dự án Game, vị trí tuyển dụng hoặc hợp tác kỹ thuật.',
     emailLabel: 'Hộp thư điện tử (Email)',

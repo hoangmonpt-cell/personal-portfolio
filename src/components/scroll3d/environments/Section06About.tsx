@@ -54,7 +54,7 @@ export const Section06About: React.FC<SectionProps> = ({ theme }) => {
           <mesh castShadow receiveShadow>
             <boxGeometry args={[2.4, 3.4, 0.16]} />
             <meshPhysicalMaterial
-              color={isDark ? '#0f172a' : '#cbd5e1'}
+              color={isDark ? '#0f172a' : '#f8fafc'}
               transmission={0.7}
               roughness={0.15}
               metalness={0.3}

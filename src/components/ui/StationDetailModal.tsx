@@ -120,7 +120,8 @@ export const StationDetailModal: React.FC<StationDetailModalProps> = ({
                         <img
                           src={profileData.avatarUrl}
                           alt={profileData.name}
-                          className="w-full h-full object-cover object-top rounded-full"
+                          className="w-full h-full object-cover rounded-full"
+                          style={{ objectPosition: 'center 15%' }}
                         />
                       </div>
                     )}

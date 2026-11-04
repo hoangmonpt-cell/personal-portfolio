@@ -60,7 +60,7 @@ export const Section07Contact: React.FC<SectionProps> = ({ theme }) => {
         <mesh position={[0, 0.8, 0]} castShadow receiveShadow>
           <cylinderGeometry args={[0.9, 1.3, 1.6, 24]} />
           <meshStandardMaterial
-            color={isDark ? '#0f172a' : '#cbd5e1'}
+            color={isDark ? '#0f172a' : '#f8fafc'}
             metalness={0.94}
             roughness={0.16}
           />

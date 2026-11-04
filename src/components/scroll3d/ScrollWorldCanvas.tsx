@@ -35,11 +35,11 @@ export const ScrollWorldCanvas: React.FC<ScrollWorldCanvasProps> = ({
         }}
         dpr={qualityTier === 'low' ? 1 : [1, 1.5]}
       >
-        {/* Dynamic Atmospheric Distance Fog */}
-        <color attach="background" args={[isDark ? '#05080e' : '#f8fafc']} />
+        {/* Atmospheric Distance Fog: Deep space void preserved across both dark & light modes */}
+        <color attach="background" args={['#05080e']} />
         <fog
           attach="fog"
-          args={[isDark ? '#060910' : '#e2e8f0', 16, 175]}
+          args={['#060910', 16, 175]}
         />
 
         <Suspense fallback={null}>

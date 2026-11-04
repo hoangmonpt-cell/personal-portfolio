@@ -36,15 +36,15 @@ export const CinematicLighting: React.FC<CinematicLightingProps> = ({
     <group name="cinematic-lighting-rig">
       {/* 1. Physically Based IBL Environment Map Reflections */}
       <Environment
-        preset={isDark ? 'city' : 'studio'}
-        environmentIntensity={isDark ? 0.45 : 0.75}
+        preset="city"
+        environmentIntensity={isDark ? 0.45 : 0.55}
       />
 
       {/* 2. Primary Atmospheric Hemisphere Ambient Bounce */}
       <hemisphereLight
-        color={isDark ? '#38bdf8' : '#f8fafc'}
-        groundColor={isDark ? '#020617' : '#94a3b8'}
-        intensity={isDark ? 0.75 : 1.35}
+        color="#38bdf8"
+        groundColor="#020617"
+        intensity={isDark ? 0.75 : 0.85}
       />
 
       {/* 3. Global Directional Sun/Key Light with Precision Cascaded Shadows */}
@@ -52,7 +52,7 @@ export const CinematicLighting: React.FC<CinematicLightingProps> = ({
         ref={dirLightRef}
         position={[18, 32, 12]}
         color={isDark ? '#e0f2fe' : '#ffffff'}
-        intensity={isDark ? 2.4 : 3.2}
+        intensity={isDark ? 2.4 : 2.5}
         castShadow={qualityTier !== 'low'}
         shadow-mapSize-width={shadowMapSize}
         shadow-mapSize-height={shadowMapSize}

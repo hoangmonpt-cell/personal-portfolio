@@ -55,34 +55,31 @@ export const ScrollSectionOverlay: React.FC = () => {
             : 'opacity-0 translate-y-8 scale-95 pointer-events-none'
         }`}
       >
-        <div className="hud-panel p-6 sm:p-10 border border-[#00f0ff]/40 bg-[#0a0d14]/90 backdrop-blur-md rounded shadow-[0_0_40px_rgba(0,240,255,0.2)]">
-          {/* Developer Avatar & Status Header */}
-          <div className="flex items-center space-x-4 sm:space-x-5 mb-4 pb-4 border-b border-slate-800/80">
+        <div className="hud-panel p-6 sm:p-10 border border-[#00f0ff]/40 bg-[#0a0d14]/92 backdrop-blur-md rounded shadow-[0_0_40px_rgba(0,240,255,0.2)]">
+          {/* Developer Header: Exact Avatar & Typography Layout as Image 2 (Avatar lifted up ~1/3 with centered face) */}
+          <div className="flex items-center space-x-4 sm:space-x-5 mb-5 pb-4 border-b border-slate-800 pt-2 sm:pt-4">
             {profileData.avatarUrl && (
-              <div className="relative flex-shrink-0">
+              <div className="relative -translate-y-1/3 flex-shrink-0">
                 <img
                   src={profileData.avatarUrl}
                   alt={profileData.name}
-                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-[#00f0ff] object-cover shadow-[0_0_25px_rgba(0,240,255,0.4)]"
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-[#fbbf24] object-cover shadow-[0_0_20px_rgba(251,191,36,0.4)]"
+                  style={{ objectPosition: 'center 15%' }}
                 />
-                <span className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-[#00ff88] border-2 border-[#0a0d14]" />
               </div>
             )}
             <div>
-              {/* Status Badge */}
-              <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 rounded bg-[#00f0ff]/10 border border-[#00f0ff]/40 text-[#00f0ff] font-mono text-[11px] tracking-wider mb-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#00ff88] animate-ping" />
-                <span>{t.hero.statusBadge}</span>
-              </div>
-              <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+              <span className="text-xs font-mono text-[#fbbf24] tracking-widest uppercase block mb-1">
+                // 01. {t.hero.statusBadge}
+              </span>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
                 {profileData.name}
               </h1>
+              <span className="text-xs sm:text-sm font-mono text-slate-400 block mt-1">
+                {profileData.title[lang as 'vi' | 'en']}
+              </span>
             </div>
           </div>
-
-          <p className="text-base sm:text-xl font-mono text-[#00f0ff] mb-4">
-            {profileData.title[lang as 'vi' | 'en']}
-          </p>
 
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6">
             {profileData.tagline[lang as 'vi' | 'en']}
@@ -369,6 +366,7 @@ export const ScrollSectionOverlay: React.FC = () => {
                 src={profileData.avatarUrl}
                 alt={profileData.name}
                 className="w-16 h-16 rounded-full border-2 border-[#fbbf24] object-cover shadow-lg"
+                style={{ objectPosition: 'center 15%' }}
               />
             )}
             <div>
@@ -401,9 +399,14 @@ export const ScrollSectionOverlay: React.FC = () => {
         }`}
       >
         <div className="hud-panel p-6 sm:p-10 border border-[#00ff88]/40 bg-[#0a0d14]/92 backdrop-blur-md rounded shadow-[0_0_50px_rgba(0,255,136,0.2)]">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded bg-[#00ff88]/15 border border-[#00ff88]/40 text-[#00ff88] font-mono text-xs mb-3">
-            <span className="w-2 h-2 rounded-full bg-[#00ff88] animate-ping" />
-            <span>{t.contact.statusAvailable}</span>
+          <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
+            <span className="text-xs font-mono text-[#00ff88] tracking-widest uppercase">
+              {t.contact.sectionTag}
+            </span>
+            <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 rounded bg-[#00ff88]/15 border border-[#00ff88]/40 text-[#00ff88] font-mono text-[11px]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00ff88] animate-ping" />
+              <span>{t.contact.statusAvailable}</span>
+            </div>
           </div>
 
           <h2 className="text-2xl sm:text-4xl font-extrabold text-white mb-2">

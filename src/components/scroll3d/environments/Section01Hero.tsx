@@ -343,7 +343,7 @@ export const Section01Hero: React.FC<SectionProps> = ({ theme, qualityTier = 'hi
         <mesh ref={outerRingRef} castShadow receiveShadow>
           <torusGeometry args={[3.3, 0.08, 24, 64]} />
           <meshStandardMaterial
-            color={isDark ? '#1e293b' : '#94a3b8'}
+            color={isDark ? '#1e293b' : '#e2e8f0'}
             metalness={0.9}
             roughness={0.2}
           />
@@ -353,7 +353,7 @@ export const Section01Hero: React.FC<SectionProps> = ({ theme, qualityTier = 'hi
         <mesh ref={portalRingRef} castShadow receiveShadow>
           <torusGeometry args={[2.7, 0.06, 24, 64]} />
           <meshStandardMaterial
-            color={isDark ? '#0f172a' : '#cbd5e1'}
+            color={isDark ? '#0f172a' : '#f8fafc'}
             metalness={0.95}
             roughness={0.15}
           />
@@ -407,9 +407,9 @@ export const Section01Hero: React.FC<SectionProps> = ({ theme, qualityTier = 'hi
             <mesh castShadow receiveShadow>
               <boxGeometry args={[0.45, 3.6, 0.6]} />
               <meshStandardMaterial
-                color={isDark ? '#090d16' : '#cbd5e1'}
-                metalness={0.85}
-                roughness={0.25}
+                color={isDark ? '#090d16' : '#f8fafc'}
+                metalness={0.88}
+                roughness={0.18}
               />
             </mesh>
             <mesh position={[x > 0 ? -0.21 : 0.21, 0, 0]}>
@@ -417,7 +417,7 @@ export const Section01Hero: React.FC<SectionProps> = ({ theme, qualityTier = 'hi
               <meshStandardMaterial
                 color={secondaryColor}
                 emissive={secondaryColor}
-                emissiveIntensity={isDark ? 1.5 : 0.6}
+                emissiveIntensity={isDark ? 1.5 : 0.8}
               />
             </mesh>
           </group>
