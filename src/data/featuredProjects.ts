@@ -17,6 +17,7 @@ export interface FeaturedProjectConfig {
   screenshots?: string[];
   caseStudyId?: string;
   featuredOrder?: number;
+  repoUrl?: string;
 }
 
 export const featuredProjectsConfig: FeaturedProjectConfig[] = [
@@ -25,12 +26,26 @@ export const featuredProjectsConfig: FeaturedProjectConfig[] = [
     category: 'game',
     customTitle: 'Fortress Idle: Last Stand',
     customDescription: {
-      vi: 'Dự án Tower Defense & Idle kết hợp trên Unity 6 LTS (URP). Tối ưu 0 B GC Alloc trong combat loop, hệ thống MaterialPropertyBlock triệt tiêu rò rỉ VRAM, và thuật toán scale kinh tế Double-precision 15 hậu tố.',
-      en: 'Hybrid Tower Defense & Idle game built on Unity 6 LTS (URP). Features 0 B GC Alloc in combat loops, MaterialPropertyBlock VRAM leak prevention, and 15-suffix double-precision idle math scaling.',
+      vi: 'Dự án Tower Defense & Idle kết hợp trên Unity 6 LTS (URP) – Sprint 7 ngày, đạt Giải Triển Vọng GAME SPRINT 2026. Tối ưu 0 B GC Alloc trong combat loop, MaterialPropertyBlock triệt tiêu rò rỉ VRAM.',
+      en: 'Hybrid Tower Defense & Idle game on Unity 6 LTS (URP) – Completed in 7-day sprint, won Promising Award at GAME SPRINT 2026. Features 0 B GC Alloc in combat loops and MaterialPropertyBlock.',
     },
     thumbnail: '',
     caseStudyId: 'fortress-idle',
     featuredOrder: 1,
+    repoUrl: 'https://github.com/hoangmonpt-cell/FortressIdle',
+  },
+  {
+    repoName: 'rise-of-the-elements',
+    category: 'game',
+    customTitle: 'Rise of the Elements',
+    customDescription: {
+      vi: 'Dự án Xưởng Game Hybrid Match-3 & Tower Defense (PC / Mobile). Kiến trúc phân tách Unity UI Toolkit (UXML/USS), DataManager tích hợp Firebase Realtime Database, cơ chế hồi Thể lực/Lives Server-Authoritative và hiệu ứng Currency VFX.',
+      en: 'Hybrid Match-3 & Tower Defense Studio Capstone (PC / Mobile). Features modular Unity UI Toolkit (UXML/USS), Firebase Realtime Cloud Data, Server-Authoritative Lives/Stamina, and Currency VFX.',
+    },
+    thumbnail: '',
+    caseStudyId: 'rise-of-the-elements',
+    featuredOrder: 2,
+    repoUrl: 'https://gitlab.com/duanxuong/rise-of-the-elements',
   },
   {
     repoName: 'personal-portfolio',
@@ -42,7 +57,8 @@ export const featuredProjectsConfig: FeaturedProjectConfig[] = [
     },
     thumbnail: '',
     caseStudyId: 'portfolio-engine',
-    featuredOrder: 2,
+    featuredOrder: 3,
+    repoUrl: 'https://github.com/hoangmonpt-cell/personal-portfolio',
   },
 ];
 
@@ -50,6 +66,196 @@ export const featuredProjectsConfig: FeaturedProjectConfig[] = [
  * DANH SÁCH CASE STUDIES CHI TIẾT
  */
 export const caseStudiesData: Record<string, CaseStudyData> = {
+  'rise-of-the-elements': {
+    id: 'rise-of-the-elements',
+    title: 'Rise of the Elements: Hybrid Match-3 & Tower Defense',
+    subtitle: {
+      vi: 'Kiến trúc UI Toolkit phân tách, đồng bộ Firebase Auth/Database và hệ thống điều phối vòng đời màn chơi',
+      en: 'Modular UI Toolkit Architecture, Firebase Cloud Synchronization, and Robust Game Lifecycle Management',
+    },
+    overview: {
+      vi: 'Dự án Xưởng Game FPT Polytechnic kết hợp giữa cơ chế giải đố Match-3 và phòng thủ tháp Tower Defense theo chủ đề 5 nguyên tố. Dự án đòi hỏi hệ thống giao diện phản hồi tức thì, bảo đảm 60 FPS không giật lag khi chuyển Scene, và đồng bộ dữ liệu người chơi qua Firebase an toàn.',
+      en: 'An FPT Polytechnic Studio capstone hybrid merging Match-3 elemental puzzles with tactical Tower Defense mechanics. Built with modern Unity UI Toolkit, resilient scene orchestration, and server-authoritative cloud synchronization.',
+    },
+    goal: {
+      vi: 'Xây dựng toàn bộ hệ thống giao diện người dùng theo chuẩn Unity UI Toolkit (UXML/USS), kiến trúc DataManager tập trung tích hợp Firebase Auth & Cloud Database, và thiết kế hệ thống điều phối vòng đời GameInitializer ngăn ngừa rò rỉ bộ nhớ khi chuyển màn.',
+      en: 'Develop the complete UI/UX pipeline using modern Unity UI Toolkit (UXML/USS), engineer a centralized DataManager with Firebase Auth and Realtime Database, and establish a robust GameInitializer lifecycle preventing scene transition memory leaks.',
+    },
+    techStack: [
+      'Unity 2022 LTS',
+      'C# (.NET)',
+      'UI Toolkit (UXML/USS)',
+      'Firebase Auth & Realtime Database',
+      'LeanTween',
+      'SceneManager & Boot Pattern',
+      'GitLab Flow',
+    ],
+    architecture: {
+      vi: [
+        'Kiến trúc UI Toolkit hiện đại: Phân tách hoàn toàn giữa layout (UXML), stylesheet (USS) và logic C# theo mô hình vòng đời OnEnable/OnDisable.',
+        'Hệ thống DataManager tập trung: Quản lý ProgressData (Score, Coin, Gem, Tickets, Level Map) đồng bộ song song giữa bộ nhớ cục bộ và Firebase Cloud.',
+        'GameInitializer Boot Scene Pattern: Khởi tạo các Prefab dịch vụ singleton và quản lý chuyển cảnh an toàn giữa Menu, Lobby và Combat.',
+        'CurrencyVFXSystem: Hệ thống hiệu ứng hạt tiền tệ bay mượt mà vào HUD mà không gây nghẽn UI Draw Calls.',
+      ],
+      en: [
+        'Modern UI Toolkit Architecture: Decoupled layout (UXML), styling (USS), and C# controllers with clean OnEnable/OnDisable lifecycles.',
+        'Centralized DataManager: Synchronizes player ProgressData (Score, Coin, Gem, Tickets, Level unlocks) seamlessly with Firebase Realtime Database.',
+        'GameInitializer Boot Scene Pattern: Manages singleton services and delivers safe scene transitions between Menu, Lobby, and Gameplay.',
+        'CurrencyVFXSystem: Polished UI particle flight animations for earned coins and gems into the HUD with zero frame drops.',
+      ],
+    },
+    keyFeatures: {
+      vi: [
+        'Hệ thống Lobby Navigation: Điều phối mượt mà giữa Main Menu, Level Map Selection, Character/Tower Upgrade và Combat HUD.',
+        'Hệ thống Thể lực/Tim (Server-Authoritative Lives): Quản lý lượt chơi và bộ đếm ngược thời gian hồi phục thể lực độc lập qua DataManager.',
+        'Đồng bộ tài khoản thời gian thực với Firebase: Tự động lưu trữ tiến trình qua màn, tiền tệ và sao nâng cấp ngay khi kết thúc trận đánh (Victory/Defeat).',
+        'Hoạt ảnh giao diện tương tác: Tích hợp LeanTween vào hệ thống Popup Toast, Dialog và hiệu ứng chuyển cảnh mềm mại.',
+      ],
+      en: [
+        'Lobby Navigation Pipeline: Smooth state switching between Main Menu, Level Map Selection, Upgrades, and Combat HUD.',
+        'Server-Authoritative Lives/Stamina System: Independent stamina countdown and ticket deduction logic managed via DataManager.',
+        'Real-time Cloud Synchronization: Automatic persisting of victory rewards, currencies, and star upgrades directly to Firebase Database.',
+        'Interactive UI Choreography: Integrated LeanTween animations for dynamic toast alerts, modal dialogs, and smooth panel transitions.',
+      ],
+    },
+    challenges: {
+      vi: [
+        'Xung đột TimeScale và Crash khi chuyển Scene: Khi người chơi ấn Restart hoặc Home trong lúc đang thi triển chiêu thức đạn SkillProjectile, Scene bị hủy gây NullReferenceException hoặc đóng băng TimeScale tại 0.',
+        'Độ trễ bất đồng bộ khi nạp Firebase Auth: Quá trình nạp dữ liệu đám mây Firebase mất vài giây dẫn đến race condition khiến UI Lobby hiển thị tài nguyên bằng 0 hoặc dùng nhầm demo data.',
+        'Lớp phủ HUD che khuất bàn cờ Match-3: Canvas UIDocument mặc định có background che khuất layer Match-3 tương tác phía dưới.',
+      ],
+      en: [
+        'TimeScale Desync & Scene Transition Crashes: Destroying active scenes mid-ability projectile flight triggered NullReferenceExceptions and trapped TimeScale at zero.',
+        'Asynchronous Race Conditions in Cloud Hydration: Latency during Firebase Auth login caused initial Lobby frames to display 0 resources or stale demo presets.',
+        'HUD Canvas Occlusion: Default UI Toolkit layout backgrounds unintentionally masked the interactive Match-3 board underneath.',
+      ],
+    },
+    solutions: {
+      vi: [
+        'Bao bọc ngoại lệ Try-Catch và Kiểm tra vòng đời an toàn: Đảm bảo SkillProjectile tự hủy an toàn khi Scene bị Unload, tự động chuẩn hóa TimeScale = 1 trong GameInitializer.',
+        'Chiến lược Caching cục bộ + Event-Driven Cloud Hydration: Khởi tạo giao diện tức thì từ cache máy, sau đó đăng ký sự kiện Firebase Auth để cập nhật dữ liệu tài khoản thực tế.',
+        'Trong suốt hóa HUD Layer: Cấu hình USS match3-layer trong suốt và tách riêng các popup đè lên trên bằng LeanTween pop-in animation.',
+      ],
+      en: [
+        'Defensive Exception Catching & Safe Teardowns: Null-checked all projectile targets during scene teardown and enforced TimeScale normalization in GameInitializer.',
+        'Local Cache & Event-Driven Cloud Hydration: Instantly hydrated UI from local state while streaming asynchronous Firebase deltas upon auth resolution.',
+        'Alpha-layered HUD Toolkit Styling: Normalized match3-layer USS backgrounds to fully transparent with non-blocking click-through regions.',
+      ],
+    },
+    personalContribution: {
+      vi: [
+        'Trực tiếp thiết kế và lập trình toàn bộ hệ thống UI/UX từ Menu, Lobby Navigation, LevelMap, Combat HUD đến các Popup Thắng/Thua/Cài đặt bằng Unity UI Toolkit.',
+        'Tái cấu trúc DataManager, tích hợp thành công Firebase Authentication và hệ thống đếm ngược hồi Thể lực/Lives Server-Authoritative.',
+        'Lập trình CurrencyVFXSystem và hiệu ứng LeanTween cho toàn bộ giao diện game.',
+        'Khắc phục triệt để lỗi crash Scene Transition và đồng bộ TimeScale cho toàn đội đồ án.',
+      ],
+      en: [
+        'Single-handedly architected and implemented the entire UI/UX pipeline from Main Menu, Lobby Navigation, LevelMap, Combat HUD to Popups using Unity UI Toolkit.',
+        'Overhauled DataManager, successfully integrating Firebase Auth and server-authoritative lives/stamina regeneration timers.',
+        'Programmed CurrencyVFXSystem and custom LeanTween animation choreography across all interface elements.',
+        'Resolved critical scene transition crashes and TimeScale synchronization issues for the entire development team.',
+      ],
+    },
+    testingResults: {
+      vi: 'Giao diện đạt 60 FPS mượt mà trên cả PC và Mobile, đồng bộ Firebase không giật lag, loại bỏ hoàn toàn hiện tượng crash khi chuyển scene.',
+      en: 'Rock-solid 60 FPS UI performance across PC and mobile targets, seamless Firebase synchronization with zero scene transition exceptions.',
+    },
+    repoUrl: 'https://gitlab.com/duanxuong/rise-of-the-elements',
+  },
+  'fortress-idle': {
+    id: 'fortress-idle',
+    title: 'Fortress Idle: Last Stand',
+    subtitle: {
+      vi: 'Dự án Tower Defense & Idle trên Unity 6 URP – Đạt Giải Triển Vọng GAME SPRINT 2026',
+      en: 'Tower Defense & Idle on Unity 6 URP – Won Promising Award at GAME SPRINT 2026',
+    },
+    overview: {
+      vi: 'Dự án Game kết hợp giữa cơ chế Tower Defense chiến thuật và tiến trình Idle tự động hóa. Đạt giải Triển Vọng cuộc thi GAME SPRINT 2026 với yêu cầu hoàn thiện toàn bộ sản phẩm trong vòng 7 ngày.',
+      en: 'A high-intensity project merging tactical Tower Defense and automated Idle systems, completed within a rigorous 7-day sprint and awarded the Promising Prize at GAME SPRINT 2026.',
+    },
+    goal: {
+      vi: 'Xây dựng một tựa game hoàn chỉnh trong thời gian thần tốc 7 ngày với vai trò Leader nhóm 2 thành viên; tối ưu hóa triệt để 0 byte rác bộ nhớ (GC Alloc) trong combat loop và xử lý số học quy mô lớn.',
+      en: 'Lead a 2-person team to ship a complete, commercial-ready game within 7 days; achieve 0 byte GC allocation in active combat and handle extreme exponential idle math without overflow.',
+    },
+    techStack: [
+      'Unity 6 LTS',
+      'C# (.NET Standard)',
+      'Universal Render Pipeline (URP)',
+      'Generic Object Pooling',
+      'MaterialPropertyBlock',
+      'FSM State Machine',
+      'Double-Precision Math',
+    ],
+    architecture: {
+      vi: [
+        'Máy trạng thái hữu hạn (FSM): Tách biệt logic tháp phòng thủ và quái vật thành các trạng thái Idle, Targeting, Attack, Cooldown độc lập.',
+        'Hệ thống Generic Object Pool (SimplePool<T>): Quản lý tái sử dụng creep, đạn và floating damage text, loại bỏ hoàn toàn GC Alloc trong runtime.',
+        'Tối ưu Draw Calls qua MaterialPropertyBlock: Xử lý hiệu ứng chớp sáng trúng đòn (Hit Flash) mà không nhân bản runtime material.',
+        'Bộ chuyển đổi BigNumberFormatter: Xử lý số học quy mô lớn với 15 hậu tố lũy thừa mà không tràn số thực.',
+      ],
+      en: [
+        'Finite State Machine (FSM): Decoupled tower and creep logic into modular states (Idle, Targeting, Attack, Cooldown).',
+        'Generic Object Pool (SimplePool<T>): Reused projectiles, creeps, and floating damage labels, guaranteeing 0 B runtime GC Alloc.',
+        'Draw Call Batching with MaterialPropertyBlock: Routed hit-flash shader properties through a shared block without instantiating cloned materials.',
+        'BigNumberFormatter: Supported extreme exponential idle progression with 15-suffix notation without precision breakdown.',
+      ],
+    },
+    keyFeatures: {
+      vi: [
+        'Combat Loop mượt mà 60 FPS với số lượng creep lớn cùng lúc.',
+        'Hệ thống nâng cấp kinh tế và chỉ số tháp thời gian thực.',
+        'Xử lý va chạm và tìm mục tiêu O(1) qua Spatial Registry.',
+        'Giao diện trực quan phong cách quân sự sci-fi.',
+      ],
+      en: [
+        'Locked 60 FPS combat loop handling heavy creep waves.',
+        'Real-time economic and turret upgrade progression.',
+        'O(1) spatial query system replacing costly physics sweeps.',
+        'Tactical military sci-fi HUD aesthetic.',
+      ],
+    },
+    challenges: {
+      vi: [
+        'Áp lực thời gian hoàn thiện chỉ trong 7 ngày của cuộc thi GAME SPRINT 2026.',
+        'Nguy cơ tụt FPS và giật lag do Garbage Collection khi quái và đạn sinh hủy liên tục.',
+        'Lỗi rò rỉ VRAM và phá vỡ SRP Batching do nhân bản Material khi tạo hiệu ứng trúng đòn.',
+      ],
+      en: [
+        'Extreme 7-day delivery deadline under GAME SPRINT 2026 competition constraints.',
+        'Frame drops and micro-stutters from GC allocations during high-frequency projectile and creep spawning.',
+        'VRAM bloat and SRP Batcher disruption caused by runtime Material cloning for hit-flash visual feedback.',
+      ],
+    },
+    solutions: {
+      vi: [
+        'Thiết kế kiến trúc module hóa cao giúp 2 thành viên song song phát triển không xung đột mã nguồn.',
+        'Áp dụng Generic Object Pooling triệt tiêu 100% GC Alloc trong combat loop.',
+        'Sử dụng MaterialPropertyBlock dùng chung, bảo toàn 100% GPU Instancing và SRP Batching.',
+      ],
+      en: [
+        'Architected decoupled modular systems enabling frictionless parallel development within the 2-person team.',
+        'Eliminated runtime GC allocation through strict Generic Object Pooling.',
+        'Preserved 100% GPU instancing and SRP batching via shared MaterialPropertyBlock buffers.',
+      ],
+    },
+    personalContribution: {
+      vi: [
+        'Đảm nhận vai trò Leader và Lead Engineer, dẫn dắt đội ngũ 2 thành viên hoàn thành xuất sắc đồ án trong 7 ngày.',
+        'Trực tiếp thiết kế hệ thống FSM, Generic Object Pool và tối ưu 0 B GC Alloc.',
+        'Lập trình công thức kinh tế Idle và tích hợp hiệu ứng đồ họa chiến đấu URP.',
+      ],
+      en: [
+        'Served as Project Leader and Lead Engineer, steering the 2-person team to deliver the complete game within 7 days.',
+        'Architected core FSM combat state machines, Generic Object Pool, and achieved 0 B GC allocation.',
+        'Programmed exponential idle math formulas and integrated URP combat visual shaders.',
+      ],
+    },
+    testingResults: {
+      vi: 'Đạt Giải Triển Vọng cuộc thi GAME SPRINT 2026, khóa cứng 60 FPS ổn định, GC Alloc đạt 0 byte/frame trong combat loop.',
+      en: 'Won the Promising Award at GAME SPRINT 2026, sustained locked 60 FPS with 0 byte GC allocation in combat frames.',
+    },
+    repoUrl: 'https://github.com/hoangmonpt-cell/FortressIdle',
+  },
   'portfolio-engine': {
     id: 'portfolio-engine',
     title: 'Personal Portfolio & Multi-Source Repo Synchronizer',
@@ -65,176 +271,65 @@ export const caseStudiesData: Record<string, CaseStudyData> = {
       vi: 'Giải quyết bài toán cập nhật portfolio thủ công bằng cách tự động đồng bộ hóa kho dự án mở, đồng thời tạo ra trải nghiệm thị giác ấn tượng nhưng vẫn đảm bảo tải nhanh, hỗ trợ song ngữ và tương thích hoàn toàn với GitHub Pages.',
       en: 'Eliminated manual portfolio maintenance through continuous repo synchronization, delivering a memorable game-inspired aesthetic without sacrificing bundle efficiency or accessibility.',
     },
-    techStack: ['React 19', 'TypeScript', 'Vite', 'Tailwind CSS', 'GitHub Actions', 'Lucide Icons', 'Vitest'],
+    techStack: ['React 19', 'TypeScript', 'Vite', 'Three.js / R3F', 'Tailwind CSS', 'GitHub Actions', 'Vitest'],
     architecture: {
       vi: [
         'Tách biệt 3 tầng kiến trúc: Data Providers (GitHub/GitLab API & Fallback), Normalization Adapter, Presentation UI Layer.',
         'Chiến lược Hybrid Cache lưu trữ LocalStorage thông minh, chống nghẽn rate limit (403/429) và tự phục hồi khi offline.',
-        'Hệ thống Localization không re-render toàn trang, hỗ trợ fallback song ngữ linh hoạt.',
+        'Hệ thống Không gian 3D tương tác kết hợp UI HUD Sci-Fi song ngữ Việt - Anh.',
       ],
       en: [
         'Clean 3-layer architecture: Data Providers (GitHub/GitLab APIs & Fallbacks), Normalization Adapter, and Game HUD UI Layer.',
         'Resilient Hybrid Caching via LocalStorage to mitigate API rate limits (403/429) with seamless offline fallback.',
-        'Lightweight decoupled Localization engine preventing full-page reloads with zero-dependency bilingual switches.',
+        'Interactive 3D space combined with bilingual Sci-Fi tactical HUD interface.',
       ],
     },
     keyFeatures: {
       vi: [
         'Đồng bộ hóa tự động GitHub & GitLab repositories.',
-        'Bộ lọc đa chiều: Nền tảng (GitHub/GitLab), Danh mục (Game/AI/Software/Tool), Tìm kiếm tên/mô tả theo thời gian thực.',
-        'Giao diện Sci-Fi Tactical HUD với âm hưởng game development, responsive trên mọi kích thước màn hình.',
-        'Hỗ trợ chế độ song ngữ Tiếng Việt & English chuẩn mực kỹ thuật.',
+        'Không gian 3D tương tác phòng làm việc Game Developer & đường hành trình Cinematic Scroll 3D.',
+        'Bộ lọc đa chiều và popup Case Study chi tiết cho từng dự án thực chiến.',
       ],
       en: [
-        'Real-time automated sync for GitHub & GitLab public projects.',
-        'Multi-axis filtering: Source provider, project category, and instant search.',
-        'Sci-Fi Tactical HUD visual experience responsive across mobile, tablet, and desktop viewports.',
-        'Seamless Vietnamese / English bilingual toggling across all interface modules.',
+        'Automated synchronization across GitHub & GitLab repositories.',
+        'Interactive 3D Developer Room & Cinematic 3D Scroll Journey.',
+        'Multi-dimensional filtering and deep-dive technical case study modals.',
       ],
     },
     challenges: {
       vi: [
-        'Xử lý cấu trúc dữ liệu không đồng nhất giữa GitHub API (REST v3) và GitLab Projects API (v4).',
-        'GitHub unauthenticated API rate limit (60 requests/giờ) có thể làm gián đoạn trải nghiệm nhà tuyển dụng.',
-        'Đảm bảo visual gaming HUD độc đáo nhưng vẫn duy trì chỉ số tiếp cận Accessibility (contrast, semantic HTML, screen reader).',
+        'Giới hạn tỷ lệ truy vấn API khắt khe từ GitHub và GitLab (60 req/h đối với IP unauthenticated).',
+        'Tối ưu hóa bundle và hiệu năng WebGL 60 FPS khi render mô hình 3D cùng lúc với giao diện HUD.',
       ],
       en: [
-        'Reconciling data schema disparities between GitHub REST v3 and GitLab Projects API v4.',
-        'Overcoming unauthenticated GitHub rate limits (60 req/hr) to ensure uninterrupted recruiter browsing.',
-        'Crafting a distinct gaming visual style while maintaining strict accessibility contrast and keyboard navigability.',
+        'Strict API rate limits from GitHub and GitLab for unauthenticated requests.',
+        'Bundle optimization and maintaining smooth 60 FPS WebGL rendering alongside complex HUD DOM.',
       ],
     },
     solutions: {
       vi: [
-        'Thiết kế UnifiedProject Model với Adapter pattern chuẩn hóa id, sao, forks, ngôn ngữ, tag, và metadata.',
-        'Triển khai Cache-First với TTL (Time-To-Live) 15 phút kết hợp Bundled Fallback Snapshot để website không bao giờ bị trống dữ liệu.',
-        'Sử dụng bảng màu neon-cyan / emerald tactical kết hợp dark slate nền sâu, kiểm tra độ tương phản WCAG AA.',
+        'Xây dựng lớp Hybrid Cache thông minh với TTL 15 phút và cơ chế Fallback tự phục hồi dữ liệu.',
+        'Tách bundle Three.js/R3F bằng dynamic import, nén asset và kiểm soát render loop bằng useFrame.',
       ],
       en: [
-        'Engineered a UnifiedProject Adapter model mapping disparate fields into an immutable schema.',
-        'Implemented TTL-backed LocalStorage cache paired with Bundled Snapshot Fallbacks for 100% uptime.',
-        'Adopted a balanced high-contrast cyberpunk/tactical HUD palette tested against WCAG AA standards.',
+        'Engineered an intelligent hybrid caching layer with 15-minute TTL and resilient static fallbacks.',
+        'Code-split Three.js/R3F bundles with dynamic imports, asset compression, and frame-budgeted render loops.',
       ],
     },
     personalContribution: {
       vi: [
-        'Thiết kế toàn bộ kiến trúc frontend, hệ thống types và data adapters.',
-        'Lập trình Game HUD Design System và các hiệu ứng visual state.',
-        'Cấu hình CI/CD GitHub Actions deploy tự động lên GitHub Pages.',
+        'Toàn quyền thiết kế và phát triển toàn bộ hệ thống frontend, 3D WebGL scenes và logic đồng bộ API.',
+        'Xây dựng hệ thống âm thanh HUD Sound Synthesizer qua Web Audio API không phụ thuộc file audio ngoài.',
       ],
       en: [
-        'Architected full frontend structure, TypeScript interfaces, and normalization adapters.',
-        'Engineered the game HUD design components, visual feedback states, and sound fx toggles.',
-        'Automated CI/CD validation and deployment pipelines targeting GitHub Pages.',
+        'Full-stack architecture and development of the entire frontend, 3D WebGL scenes, and sync adapters.',
+        'Engineered a standalone procedural Web Audio API sound synthesizer for interactive HUD clicks.',
       ],
     },
     testingResults: {
-      vi: '100% TypeScript type-check thành công, vượt qua toàn bộ unit test normalization và build production hoàn tất trong dưới 5 giây.',
-      en: '100% TypeScript type-check passed, comprehensive adapter unit tests verified, sub-5-second production builds.',
+      vi: '100% test suites vượt qua (Vitest), Lighthouse Performance đạt mức cao, build production tối ưu dưới 1 giây.',
+      en: '100% Vitest test pass rate, excellent Lighthouse metrics, and lightning-fast <1s production builds.',
     },
     repoUrl: 'https://github.com/hoangmonpt-cell/personal-portfolio',
-  },
-  'fortress-idle': {
-    id: 'fortress-idle',
-    title: 'Fortress Idle: Last Stand - Unity 6 LTS & URP Architecture',
-    subtitle: {
-      vi: 'Kiến trúc Game tối ưu hóa 0 B GC Alloc, Dual UI Toolkit & UGUI Pipeline và Hệ thống toán học Idle phân đoạn',
-      en: 'Zero-Allocation Combat Loop Architecture, Hybrid UI Toolkit Stack, and Piecewise Clamped Idle Mathematics',
-    },
-    overview: {
-      vi: 'Fortress Idle: Last Stand là dự án game kết hợp giữa chiến thuật Thủ thành (Tower Defense) và cơ chế cày cuốc nhàn rỗi (Incremental Idle) được xây dựng trên Unity 6000.4.10f1 LTS và Universal Render Pipeline (URP 17.4.0). Dự án tập trung giải quyết triệt để các bài toán hóc búa về hiệu năng di động: triệt tiêu rò rỉ material, khống chế GC Alloc về 0 byte/frame, và điều tiết pathfinding NavMesh cho các đợt quái dồn dập.',
-      en: 'Fortress Idle: Last Stand is an incremental tower defense game engineered on Unity 6000.4.10f1 LTS and Universal Render Pipeline (URP 17.4.0). The project demonstrates rigorous mobile performance engineering: zero runtime material duplication, 0 B GC allocation per frame in active combat, and throttled NavMesh agent concurrency under heavy swarm pressure.',
-    },
-    goal: {
-      vi: 'Đạt chuẩn 60 FPS khóa cứng trên đa dạng phần cứng PC và Mobile, loại bỏ hoàn toàn hiện tượng khựng khung hình (hitching/spikes) khi combat bùng nổ, và thiết kế hệ thống kinh tế toán học lũy thừa không bao giờ bị tràn số thực (Overflow-safe).',
-      en: 'Achieve a rock-solid 60 FPS across both PC and mobile hardware tiers, eliminate frame hitching during burst combat skirmishes, and design an overflow-safe exponential idle economy scaling past 10^42.',
-    },
-    techStack: [
-      'Unity 6 LTS (6000.4.10f1)',
-      'C# 9.0 / .NET Standard 2.1',
-      'URP 17.4.0 (Forward Path)',
-      'UI Toolkit (USS/UXML)',
-      'Unity AI Navigation 2.0',
-      'Cinemachine 3.1.7',
-      'MaterialPropertyBlock',
-      'BigNumber Suffix Formatter',
-    ],
-    architecture: {
-      vi: [
-        'Decoupled Event-Driven Game Loop: GameManager điều phối State Machine toàn cục (Playing, Paused, GameOver) qua C# Actions; tách biệt chu kỳ tìm kiếm mục tiêu với bộ đếm SEARCH_INTERVAL (0.3s - 0.4s) thay vì chạy trong Update().',
-        'Centralized Spatial Registry (EnemyManager): Loại bỏ hoàn toàn Physics.OverlapSphere tốn kém; mọi quái vật tự đăng ký/hủy vào danh sách tập trung khi lấy từ Pool, truy vấn mục tiêu gần nhất qua vòng lặp phẳng O(N) với inline cleanup và 0 byte GC Alloc.',
-        'Generic Object Pool with Lifecycle Guard (SimplePool<T>): Quản lý Queue<T> tự mở rộng cho Enemy, Projectile, FloatingText và VFX với cơ chế bảo vệ chống double-release.',
-        'Hybrid UI Architecture: Sử dụng UI Toolkit (UXML/USS Flexbox) cho các menu phức tạp (Build, Hero Drawer, Tooltip) triệt tiêu Canvas dirtying, kết hợp TextMeshPro SDF cho HUD thế giới thực (Billboard Health Bar, Damage Popup).',
-        'Debounced Delta Persistence Layer (SaveManager): Tuần tự hóa JSON lưu trữ an toàn tại persistentDataPath với cửa sổ hoãn lưu (Debounce 3.0s) bảo vệ chip nhớ flash trên thiết bị di động.',
-      ],
-      en: [
-        'Decoupled Event-Driven Game Loop: Centralized state machine (Playing, Paused, GameOver) broadcasting via C# Actions; target-scanning throttled on distributed intervals (0.3s - 0.4s) outside Update().',
-        'Centralized Spatial Registry (EnemyManager): Fully eliminates Physics.OverlapSphere overhead; living entities auto-register with a centralized collection queried via cache-friendly O(N) loops with zero GC allocations.',
-        'Generic Object Pool with Lifecycle Guard (SimplePool<T>): Queue-backed generic pooling for creeps, projectiles, floating combat text, and particle effects with double-release guards.',
-        'Hybrid UI Architecture: UI Toolkit (UXML/USS Flexbox) handles dynamic drawer panels eliminating canvas dirtying, while TextMeshPro SDF mobile shaders power in-world health bars and popups.',
-        'Debounced Delta Persistence Layer (SaveManager): JSON serialization with a 3.0-second debounce window preventing mobile flash storage I/O wear and frame hitching.',
-      ],
-    },
-    keyFeatures: {
-      vi: [
-        'Dynamic Burst Assault Patterns: Spawner biến thiên 3 hình thái (Swarm Blitz, Scout Bait & Ambush, Rolling Waves) kích thích trải nghiệm nhịp độ chiến thuật.',
-        'Soft Cap Concurrency Gatekeeper: Khống chế tối đa 45 quái NavMeshAgent đồng thời trên sân, xếp hàng coroutine spawn để giữ nhịp tick ổn định tuyệt đối.',
-        'Hệ thống nâng cấp đa nhánh (Exponential Cost Curve): Công thức Cost(L) = BaseCost * (1.20)^L trên 5 cây công nghệ.',
-        'Khai thác mỏ tài nguyên tự động (Passive Generation): Chu kỳ tick 1.0s độc lập với FPS kết hợp công nghệ tăng sản lượng.',
-        'Bộ điều tiết đồ họa 3 cấp độ (GraphicsManager): Tùy biến Realtime Soft/Hard Shadows, Bloom threshold và mật độ hạt thời tiết tương thích đa cấu hình.',
-      ],
-      en: [
-        'Dynamic Burst Assault Patterns: Algorithmic wave composition alternating between Swarm Blitz, Scout Bait, and Rolling Waves for dynamic tension.',
-        'Soft Cap Concurrency Gatekeeper: Enforces a ceiling of 45 active NavMesh creeps, buffering excess entities in coroutines to prevent CPU spikes.',
-        'Exponential Upgrade Progression: Standardized Cost(L) = BaseCost * (1.20)^L across 5 technology branches.',
-        'Autonomous Resource Production: Fixed 1.0s interval economy generation decoupled from framerate fluctuations.',
-        'Adaptive 3-Tier Hardware Scaler: Dynamic configuration of soft/hard shadows, post-processing bloom thresholds, and particle emitters.',
-      ],
-    },
-    challenges: {
-      vi: [
-        'UI Re-render Hurricane & Nuốt Click Nâng Cấp: Khi xây từ 3-10 mỏ vàng, OnResourceChanged kích hoạt PopulateUpgradeList() liên tục Destroy/Instantiate thẻ UI ngay giữa frame PointerDown, làm mất EventSystem selection context và nuốt click của người chơi (tỷ lệ trơ nút 30%-80%).',
-        'Lệch pha đòn chém cận chiến & Biến dạng góc quay VFX: GameObject con trong Prefab VFX mang góc quay cứng (40, 0, 180) cộng hưởng với góc máy Isometric (50 độ) làm lưỡi chém dựng đứng lên trời; đồng thời Animator Transition bị trễ do cờ HasExitTime = true (ExitTime = 0.625).',
-        'Nguy cơ nghẽn NavMesh & Tràn số thực ở Late-game Waves: Hàm tăng trưởng máu quái 1.065^W ở các wave cao vượt quá giới hạn float 32-bit gây ra Infinity/NaN; cùng lúc đó quá nhiều quái chen chúc tìm đường gây nghẽn Main Thread CPU.',
-      ],
-      en: [
-        'UI Re-render Hurricane & Click Dropping: Rapid resource updates from multiple gold mines repeatedly invoked Destroy/Instantiate inside PopulateUpgradeList() during PointerDown frames, dropping click events by up to 80%.',
-        'VFX Transform & Animator Desync: Hardcoded local rotation (40, 0, 180) in the slash VFX prefab combined with the 50-degree isometric camera tilted the arc 90 degrees skyward; Animator HasExitTime=true caused noticeable attack lags.',
-        'NavMesh Congestion & Floating-Point Overflow in Late Waves: Unchecked 1.065^W monster health scaling threatened IEEE 754 float limits with Infinity/NaN; unconstrained creep flocking saturated CPU pathfinding threads.',
-      ],
-    },
-    solutions: {
-      vi: [
-        'Chuyển đổi sang In-place Data Binding / Reactive State Pattern: Khởi tạo danh sách thẻ UI một lần duy nhất, chỉ cập nhật chuỗi text và trạng thái interactable khi tài nguyên đổi; đưa các panel phức tạp sang UI Toolkit Virtualized ListView giảm thời gian render từ 4.5ms xuống dưới 0.1ms.',
-        'Phép chiếu hình học & Hiệu chỉnh Animator: Dùng Vector3.ProjectOnPlane(dir, Vector3.up).normalized triệt tiêu độ dốc trục Y, chỉnh phẳng transform Prefab; tắt HasExitTime trong Animator Controller với TransitionDuration = 0.05s để xuất chiêu tức thì đồng bộ từng frame.',
-        'Piecewise Clamped HP Curve & Concurrency Gatekeeper: Khóa hệ số lũy thừa ở Wave 80, chuyển sang bước nhảy tuyến tính an toàn với trần tuyệt đối 10^15; giới hạn tối đa 45 NavMeshAgent trên sân, giữ vững 60 FPS ổn định.',
-        'MaterialPropertyBlock Hit Flash: Toàn bộ hiệu ứng chớp màu sát thương sử dụng chung 1 MaterialPropertyBlock tĩnh, bảo toàn 100% GPU SRP Batching và loại bỏ rò rỉ VRAM do renderer.material.',
-      ],
-      en: [
-        'In-place Reactive Data Binding: Initialized UI elements once, updating only label text and interactable flags upon resource delta events; migrated complex views to UI Toolkit Virtualized ListView, cutting layout frame time from 4.5ms to <0.1ms.',
-        'Geometric Plane Projection & Instant State Transitions: Applied Vector3.ProjectOnPlane to flatten attack vectors to ground level; eliminated animator delays by disabling HasExitTime with a tight 0.05s transition duration.',
-        'Piecewise Clamped HP Curve & Concurrency Gatekeeper: Capped exponential growth at Wave 80 with linear progression up to a 10^15 hard ceiling; restricted active NavMesh agents to 45, securing rock-solid 60 FPS.',
-        'MaterialPropertyBlock Hit Reactions: Routed all hit-flash shader properties through a static MaterialPropertyBlock, completely avoiding renderer.material clone leaks and preserving SRP Batcher efficiency.',
-      ],
-    },
-    personalContribution: {
-      vi: [
-        'Đảm nhận vai trò Principal Game Engineer & Technical Director, thiết kế toàn bộ kiến trúc C# Decoupled Event-Driven và hệ thống State Machine.',
-        'Lập trình Generic Object Pool, Centralized Spatial Registry và tối ưu hóa 0 byte GC Alloc trong combat loop.',
-        'Xây dựng hệ thống UI kép (Hybrid UI Toolkit + UGUI SDF TextMeshPro) và thiết kế pipeline URP Dual-profile.',
-        'Cân bằng công thức toán học Idle (Exponential Cost & Piecewise HP Curve) và công cụ định dạng BigNumberFormatter 15 hậu tố.',
-      ],
-      en: [
-        'Served as Principal Game Engineer & Technical Director, architecting the decoupled event-driven C# systems and game state machines.',
-        'Engineered the generic object pool, centralized spatial query registry, and achieved 0 B GC allocation in combat frames.',
-        'Implemented the hybrid UI architecture (UI Toolkit UXML/USS + UGUI SDF TextMeshPro) and URP dual-profile graphics pipeline.',
-        'Formulated balanced idle progression mathematics (Exponential Cost & Piecewise Clamped HP) and the 15-suffix BigNumberFormatter.',
-      ],
-    },
-    testingResults: {
-      vi: 'Khóa cứng 60 FPS ổn định trong mọi đợt quái dồn dập, GC Alloc đạt 0 byte/frame trong combat loop, loại bỏ 100% hiện tượng rò rỉ Material VRAM và giải quyết triệt để lỗi nuốt click UI.',
-      en: 'Locked 60 FPS across intensive wave assaults, 0 B GC allocation per frame in active combat, zero VRAM material leaks, and 100% elimination of UI click-dropping.',
-    },
-    repoUrl: 'https://github.com/hoangmonpt-cell/FortressIdle',
   },
 };

@@ -139,7 +139,7 @@ export const ScrollSectionOverlay: React.FC = () => {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto no-scrollbar pr-1">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-h-[60vh] overflow-y-auto no-scrollbar pr-1">
             {featuredProjectsConfig.map((fp) => (
               <div
                 key={fp.repoName}
@@ -176,16 +176,23 @@ export const ScrollSectionOverlay: React.FC = () => {
 
                   <a
                     href={
-                      fp.repoName === 'FortressIdle'
+                      fp.repoUrl ||
+                      (fp.repoName === 'FortressIdle'
                         ? 'https://github.com/hoangmonpt-cell/FortressIdle'
-                        : 'https://github.com/hoangmonpt-cell/personal-portfolio'
+                        : fp.repoName.includes('rise')
+                        ? 'https://gitlab.com/duanxuong/rise-of-the-elements'
+                        : 'https://github.com/hoangmonpt-cell/personal-portfolio')
                     }
                     target="_blank"
                     rel="noreferrer"
                     onClick={() => hudSound.playClick()}
                     className="text-xs font-mono text-slate-400 hover:text-white flex items-center space-x-1"
                   >
-                    <GithubIcon className="w-3.5 h-3.5" />
+                    {(fp.repoUrl && fp.repoUrl.includes('gitlab')) || fp.repoName.includes('rise') ? (
+                      <GitlabIcon className="w-3.5 h-3.5" />
+                    ) : (
+                      <GithubIcon className="w-3.5 h-3.5" />
+                    )}
                     <span>{t.projects.openRepo}</span>
                   </a>
                 </div>

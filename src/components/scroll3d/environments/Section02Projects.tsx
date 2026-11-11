@@ -145,7 +145,7 @@ export const Section02Projects: React.FC<SectionProps> = ({ theme }) => {
       <group ref={orbitalPadsRef} position={[0, 2.2, 0]}>
         {[
           { angle: 0, label: 'Fortress Idle', color: amberColor },
-          { angle: (Math.PI * 2) / 3, label: 'ProjectBase', color: accentColor },
+          { angle: (Math.PI * 2) / 3, label: 'Rise of Elements', color: accentColor },
           { angle: ((Math.PI * 2) / 3) * 2, label: 'Portfolio 3D', color: '#00ff88' },
         ].map((pad, idx) => {
           const px = Math.cos(pad.angle) * 6.5;

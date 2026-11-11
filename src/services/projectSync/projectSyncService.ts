@@ -16,6 +16,46 @@ interface CachedData {
  */
 export const fallbackProjects: UnifiedProject[] = [
   {
+    id: 'gh-fortress-idle',
+    provider: 'github',
+    name: 'FortressIdle',
+    fullName: 'hoangmonpt-cell/FortressIdle',
+    description: 'Hybrid Tower Defense & Idle game built on Unity 6 LTS (URP) – Completed in 7-day sprint, won Promising Award at GAME SPRINT 2026. Features 0 B GC Alloc in combat loops, MaterialPropertyBlock VRAM leak prevention.',
+    htmlUrl: 'https://github.com/hoangmonpt-cell/FortressIdle',
+    homepageUrl: 'https://github.com/hoangmonpt-cell/FortressIdle',
+    language: 'C#',
+    topics: ['unity-6', 'csharp', 'tower-defense', 'idle-game', 'game-sprint-2026'],
+    stars: 2,
+    forks: 0,
+    updatedAt: new Date().toISOString(),
+    createdAt: '2026-03-01T10:00:00Z',
+    isFork: false,
+    visibility: 'public',
+    category: 'game',
+    featured: true,
+    caseStudyPath: 'fortress-idle',
+  },
+  {
+    id: 'gl-rise-of-the-elements',
+    provider: 'gitlab',
+    name: 'rise-of-the-elements',
+    fullName: 'duanxuong/rise-of-the-elements',
+    description: 'Game Hybrid Match-3 & Tower Defense (PC / Mobile) với kiến trúc UI Toolkit (UXML/USS), Firebase Auth/Cloud Data, Server-Authoritative Lives và CurrencyVFXSystem.',
+    htmlUrl: 'https://gitlab.com/duanxuong/rise-of-the-elements',
+    homepageUrl: 'https://gitlab.com/duanxuong/rise-of-the-elements',
+    language: 'C#',
+    topics: ['unity', 'csharp', 'ui-toolkit', 'firebase', 'match-3', 'tower-defense'],
+    stars: 1,
+    forks: 0,
+    updatedAt: new Date().toISOString(),
+    createdAt: '2026-03-01T10:00:00Z',
+    isFork: false,
+    visibility: 'public',
+    category: 'game',
+    featured: true,
+    caseStudyPath: 'rise-of-the-elements',
+  },
+  {
     id: 'gh-portfolio',
     provider: 'github',
     name: 'personal-portfolio',
@@ -56,6 +96,7 @@ function applyProjectOverrides(projects: UnifiedProject[]): UnifiedProject[] {
         screenshots: override.screenshots || p.screenshots,
         caseStudyPath: override.caseStudyId || p.caseStudyPath,
         customDescription: override.customDescription,
+        htmlUrl: override.repoUrl || p.htmlUrl,
       };
     }
     return p;
@@ -133,6 +174,37 @@ export async function syncAllProjects(
       glSuccess = true;
     } catch (err: any) {
       errors.push(`GitLab: ${err.message || 'Error syncing GitLab projects'}`);
+    }
+
+    // Explicitly synchronize group project: duanxuong/rise-of-the-elements (ID: 80168541)
+    try {
+      const riseRes = await fetch(`${gitlabBaseUrl || 'https://gitlab.com'}/api/v4/projects/80168541`);
+      if (riseRes.ok) {
+        const riseP = await riseRes.json();
+        const unifiedRise: UnifiedProject = {
+          id: `gl-${riseP.id}`,
+          provider: 'gitlab',
+          name: 'rise-of-the-elements',
+          fullName: riseP.path_with_namespace || 'duanxuong/rise-of-the-elements',
+          description: 'Game Hybrid Match-3 & Tower Defense (PC / Mobile) với kiến trúc UI Toolkit (UXML/USS), Firebase Auth/Cloud Data, Server-Authoritative Lives và CurrencyVFXSystem.',
+          htmlUrl: riseP.web_url || 'https://gitlab.com/duanxuong/rise-of-the-elements',
+          homepageUrl: riseP.web_url || 'https://gitlab.com/duanxuong/rise-of-the-elements',
+          language: 'C#',
+          topics: ['unity', 'csharp', 'ui-toolkit', 'firebase'],
+          stars: riseP.star_count || 1,
+          forks: riseP.forks_count || 0,
+          updatedAt: riseP.last_activity_at || new Date().toISOString(),
+          createdAt: riseP.created_at || '2026-03-01T00:00:00Z',
+          isFork: false,
+          visibility: 'public',
+          category: 'game',
+          featured: true,
+          caseStudyPath: 'rise-of-the-elements',
+        };
+        glProjects.push(unifiedRise);
+      }
+    } catch {
+      // ignore
     }
   }
 
